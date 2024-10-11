@@ -1,0 +1,76 @@
+-- general structure
+
+creature is
+  sensory, motor, brain.
+
+-- common features
+
+l = 0.  r = 1. 
+h = l|r.   -- left/right half.
+
+b = 2. 
+v = l|b|r. -- left/binocular/right view.
+
+n = 0.  t = 1. 
+s = n|t.   -- nasal/temporal side.
+
+o = 0. u = 1.
+p = o|u. -- dorsal/ventral position.
+
+-- sensory features
+
+sensory is
+  retinaₕ, earₕ, skin, epithelium.
+
+retina is
+  magno, parvo.
+
+-- sensory connections
+
+retinaₕₜ maps to LGNₕ•L1 and LGNₕ•L3 and LGNₕ•L5.
+retinaₕₙ flips to LGNₕ̃•L2 and LGNₕ̃•L4 and LGNₕ̃•L6.
+
+-- motor features
+
+motor is
+  eyeₕₛ, head, voice, limbs, internal.
+
+-- motor connections
+
+-- brain features
+
+brain is
+  vision, hearing, touch, smell, taste, integration, cognition.
+
+vision is
+  LGNₕ, V1ₕ, V2dₕ, V2vₕ, V3ₕ, VPₕ, V3aₕ, V4vₕ, V5ₕ.
+
+hearing is.
+touch is.
+
+smell is
+  AntPC, PostPC.
+
+taste is.
+integration is.
+cognition is.
+
+LGN is
+  L1, L2, L3, L4, L5, L6.
+
+V1 is
+  hypercolumn hc₀‥₂₅₅ is
+    columnᵥ c is
+      minicolumn mc₀‥₁₂₇ holds
+        L2, L3, L4, L5, L6.
+
+L2 holds pyramidal p₁₆, grid g₄, disp d₄.
+L3 holds pyramidal p₁₆, grid g₄, disp d₄.
+L4 holds pyramidal p₁₆, grid g₄, disp d₄.
+L5 holds pyramidal p₁₆, grid g₄, disp d₄.
+L6 holds pyramidal p₁₆, grid g₄, disp d₄.
+
+-- brain connections
+
+LGNₕ maps to L1ₕ.
+

@@ -1,0 +1,15 @@
+for creature:
+
+-- sensory features
+
+sensory is
+  retinaₕ, earₕ, skin, epithelium.
+
+retina is
+  magno, parvo.
+
+-- sensory connections
+
+retinaₕₜ maps to LGNₕ•L1 and LGNₕ•L3 and LGNₕ•L5.
+retinaₕₙ flips to LGNₕ̃•L2 and LGNₕ̃•L4 and LGNₕ̃•L6.
+

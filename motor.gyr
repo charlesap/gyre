@@ -1,0 +1,9 @@
+for creature:
+
+-- motor features
+
+motor is
+  eyeₕₛ, head, voice, limbs, internal.
+
+-- motor connections
+

@@ -30,14 +30,19 @@ void assertions(void){
   int key;
   Get(&sym);
   while( sym != EOT ){
-    if (sym == IDENT){
+    if (sym == FOR){
+    }else if (sym == IDENT){
       Get(&sym);
       if (sym == IS){
         }else if(sym == HAS){
         }else if(sym == IN){
         }else{ 
           sym = EOT;
+          Mark("assertion not recognized.");
 	}
+    }else{
+      sym = EOT;
+      Mark("assertion not recognized.");
     }
   }
 }

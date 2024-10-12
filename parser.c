@@ -20,7 +20,8 @@
  qualification = seplist "in" ident ".".
  composition = ident "has" qidentlist ".".
  identity = ident "is" qidentlist ".".
- assertion = identity | composition | qualification.
+ for = "for" ident ".".
+ assertion = for | identity | composition | qualification.
  assertions = assertion {assertion}.
 */
 

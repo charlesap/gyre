@@ -28,6 +28,7 @@
 #define IS 16 
 #define ARROW 17 
 #define PERIOD 18
+#define HAS 19
 #define CHAR 20 
 #define INT 21 
 #define REAL 22 

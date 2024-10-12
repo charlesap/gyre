@@ -202,20 +202,27 @@ struct kws {
     }
   };
 
-  void comment(void){
+  void dashcomment(void){
+    ch = fgetc(R);
+      while( !feof(R) && (ch != '\n')){
+	    ch = fgetc(R);
+      };
+  };
+
+  void blockcomment(void){
     ch = fgetc(R);
     do{
       while( !feof(R) && (ch != '*')){
         if( ch == '('){ ch = fgetc(R);};
           if( ch == '*'){
-	    comment();
+	    blockcomment();
 	  }else{
 	    ch = fgetc(R);
 	  };
       };
       while( ch == '*'){ ch = fgetc(R);};
     } while(ch != ')' && !feof(R));
-    if( !feof(R)){ ch = fgetc(R);} else { Mark("unterminated comment");};
+    if( !feof(R)){ ch = fgetc(R);} else { Mark("unterminated block comment");};
   };
 
 
@@ -232,12 +239,13 @@ struct kws {
           }else if( ch == '$' ){ HexString(); *sym = STRING;
           }else if( ch == '&' ){ ch = fgetc(R); *sym = AND;
           }else if( ch == '(' ){ ch = fgetc(R); 
-            if( ch == '*' ){ *sym = NUL; comment(); }else{ *sym = LPAREN;}
+            if( ch == '*' ){ *sym = NUL; blockcomment(); }else{ *sym = LPAREN;}
           }else if( ch == ')' ){ ch = fgetc(R); *sym = RPAREN;
           }else if( ch == '*' ){ ch = fgetc(R); *sym = TIMES;
           }else if( ch == '+' ){ ch = fgetc(R); *sym = PLUS;
           }else if( ch == ',' ){ ch = fgetc(R); *sym = COMMA;
           }else if( ch == '-' ){ ch = fgetc(R); *sym = MINUS;
+            if( ch == '-' ){ ch = fgetc(R); *sym = NUL; dashcomment(); }else{ *sym = MINUS;}
           }else if( ch == '.' ){ ch = fgetc(R);
             if( ch == '.' ){ ch = fgetc(R); *sym = UPTO; }else{ *sym = PERIOD;}
           }else if( ch == '/' ){ ch = fgetc(R); *sym = RDIV;
@@ -307,6 +315,7 @@ void _scanner(void){
   EnterKW(DIV, "div");
   EnterKW(MOD, "mod");
   EnterKW(FOR, "for");
+  EnterKW(HAS, "has");
   KWX[3] = k;
   EnterKW(ELSE, "else");
   EnterKW(THEN, "then");

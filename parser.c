@@ -29,6 +29,17 @@ int sym;
 void assertions(void){
   int key;
   Get(&sym);
+  while( sym != EOT ){
+    if (sym == IDENT){
+      Get(&sym);
+      if (sym == IS){
+        }else if(sym == HAS){
+        }else if(sym == IN){
+        }else{ 
+          sym = EOT;
+	}
+    }
+  }
 }
 
 

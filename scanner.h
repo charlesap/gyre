@@ -1,3 +1,8 @@
+// Copyright 2024 Gyre Authors, see AUTHORS
+// MIT license, see LICENSE
+// Although every line has changed this file is based on the Oberon-07 compiler scanner
+// which is copyright Niklaus Wirth, Juerg Gutknecht, and Paul Reed. See OBERONLICENSE.
+
 #include <stdio.h>
 
 #define IdLen 32

@@ -5,15 +5,11 @@ creature is
 
 -- common features
 
-l = 0.  r = 1. 
-h = l|r.   -- left/right half.
+l|r in h.   -- left/right half.
 
-b = 2. 
-v = l|b|r. -- left/binocular/right view.
+l|b|r in v.  -- left/binocular/right view.
 
-n = 0.  t = 1. 
-s = n|t.   -- nasal/temporal side.
+n|t in s.   -- nasal/temporal side.
 
-o = 0. u = 1.
-p = o|u. -- dorsal/ventral position.
+o|u in p. -- dorsal/ventral position.
 

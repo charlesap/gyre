@@ -69,7 +69,7 @@ struct kws {
     do{
       if(ch==(char)0xe2){ch=fgetc(R);ch=fgetc(R);ch='!';};
       if(ch==(char)0xcc){ch=fgetc(R);ch='?';};
-      printf("%c",ch);
+//      printf("%c",ch);
       if (i < IdLen-1){ id[i] = ch; i++;};
       ch = fgetc(R);
     } while (!feof(R)&&((ch >= '0' && ch <= '9')||

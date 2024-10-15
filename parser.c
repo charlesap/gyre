@@ -53,7 +53,7 @@ void Projection(void){
 	      printf("#%i#",sym);
         Mark("no period");
       }else{
-        printf("\n TO\n");
+        printf(" TO\n");
         Get(&sym);
       }
     }
@@ -70,14 +70,13 @@ void Composition(void){
         Mark("no instance identifier"); 
       }
       Get(&sym);
-      printf("==%i=>",sym);
       while(sym == COMMA){
 	Get(&sym);
 	Get(&sym);
 	Get(&sym);
       }
       if(sym == PERIOD){
-          printf("\n HAS\n");
+          printf(" HAS\n");
           Get(&sym);
       }
     }
@@ -87,7 +86,7 @@ void Identity(void){
 
   Get(&sym);
   if(sym == PERIOD){
-    printf("\n IS\n");
+    printf(" IS\n");
     Get(&sym);
   }else{
     if(sym != IDENT){
@@ -109,7 +108,7 @@ void Identity(void){
         if(sym != PERIOD){
           Mark("no period");
         }else{
-          printf("\n IS\n");
+          printf(" IS\n");
           Get(&sym);
         }
       }
@@ -140,7 +139,7 @@ void Qualification(void){
       if(sym != PERIOD){
         Mark("no period");
       }else{
-        printf("\n IN\n");
+        printf(" IN\n");
         Get(&sym);
       }
     }
@@ -157,7 +156,7 @@ void For(void){
         if(sym != COLON){
 	  printf("no colon");
 	}else{
-	  printf("\n FOR\n");
+	  printf(" FOR\n");
 	  Get(&sym);
 	}
       }
@@ -165,7 +164,6 @@ void For(void){
 
 
 void Assertion(void){
-//	printf("[%i]",sym);
     if (sym == FOR){
       For();
     }else if (sym == IDENT){
@@ -173,7 +171,6 @@ void Assertion(void){
       if (sym == IS){
         Identity();
       }else if(sym == HAS){
-        printf("--->");
         Composition();
       }else if(sym == BAR){
         Qualification();
@@ -187,7 +184,6 @@ void Assertion(void){
       sym = EOT;
       Mark("assertion not recognized.");
     };
-//    if(sym != EOT){Get(&sym);}
 }
 
 void Assertions(void){
@@ -205,7 +201,7 @@ int main(int argc, char** argv) {
   _scanner();
   if (argc >= 2){
     for(i=1;i<argc;i++){
-      printf("reading %s\n",argv[i]);
+      printf("from %s\n",argv[i]);
       Scanner_Init(argv[i]);
       sym = NUL;
       Assertions();

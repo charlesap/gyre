@@ -29,8 +29,12 @@
 */
 
 int sym;
+char asid[IdLen];
+char asidx[IdLen];
 
 void Projection(void){
+  char projid[IdLen];
+  char projidx[IdLen];
   int which = sym;
   Get(&sym);
   if(sym != TO){
@@ -40,6 +44,7 @@ void Projection(void){
     if(sym != IDENT){
       Mark("no identifier"); 
     }else{
+      CopyId(projid,projidx);
       Get(&sym);
       while(sym == COMMA){
         Get(&sym);
@@ -53,7 +58,7 @@ void Projection(void){
 	      printf("#%i#",sym);
         Mark("no period");
       }else{
-        printf(" TO\n");
+        printf(" TO: %s%s\n",asid,asidx);
         Get(&sym);
       }
     }
@@ -61,6 +66,9 @@ void Projection(void){
 }
 
 void Composition(void){
+    char compid[IdLen];
+    char compidx[IdLen];
+    CopyId(compid,compidx);
     Get(&sym);
     if(sym != IDENT){
       Mark("no type identifier"); 
@@ -76,7 +84,7 @@ void Composition(void){
 	Get(&sym);
       }
       if(sym == PERIOD){
-          printf(" HAS\n");
+          printf(" HAS: %s%s\n",asid,asidx);
           Get(&sym);
       }
     }
@@ -108,7 +116,7 @@ void Identity(void){
         if(sym != PERIOD){
           Mark("no period");
         }else{
-          printf(" IS\n");
+          printf(" IS: %s%s\n",asid,asidx);
           Get(&sym);
         }
       }
@@ -119,7 +127,8 @@ void Identity(void){
 }
 
 void Qualification(void){
-//	printf("{");
+  char qualid[IdLen];
+  char qualidx[IdLen];
   while(sym == BAR){
     Get(&sym);
     if(sym != IDENT){
@@ -135,28 +144,31 @@ void Qualification(void){
     if(sym != IDENT){
       Mark("no identifier after in");
     }else{
+      CopyId(qualid,qualidx);
       Get(&sym);
       if(sym != PERIOD){
         Mark("no period");
       }else{
-        printf(" IN\n");
+        printf(" IN: %s%s\n",qualid,qualidx);
         Get(&sym);
       }
     }
   }
-//	printf("}");
 }
 
 void For(void){
+      char forid[IdLen];
+      char foridx[IdLen];
       Get(&sym);
       if(sym != IDENT){
 	printf("no identifier"); 
       }else{
+	CopyId(forid,foridx);
 	Get(&sym);
         if(sym != COLON){
 	  printf("no colon");
 	}else{
-	  printf(" FOR\n");
+	  printf(" FOR: %s%s\n",forid,foridx);
 	  Get(&sym);
 	}
       }
@@ -167,6 +179,7 @@ void Assertion(void){
     if (sym == FOR){
       For();
     }else if (sym == IDENT){
+      CopyId(asid,asidx);
       Get(&sym);
       if (sym == IS){
         Identity();

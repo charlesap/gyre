@@ -13,6 +13,7 @@ int ival;
 int slen;
 float rval;
 char id[IdLen];
+char idx[IdLen];
 char str[stringBufSize];
 int errcnt;
 
@@ -33,10 +34,13 @@ struct kws {
  
 /*exported functions*/
 
-  void CopyId(char* ident){
+  void CopyId(char* ident,char* identx){
     int i; 
     for(i=0;i<IdLen;i++){
       ident[i]=id[i];
+    };
+    for(i=0;i<IdLen;i++){
+      identx[i]=idx[i];
     }
   };
 
@@ -64,20 +68,27 @@ struct kws {
 
 
   void Identifier(int* sym){
-    int i, k;
+    int i,x,k;
+    bool sub;
     i = 0;
+    x = 0;
     do{
-      if(ch==(char)0xe2){ch=fgetc(R);ch=fgetc(R);ch='!';};
-      if(ch==(char)0xcc){ch=fgetc(R);ch='?';};
-//      printf("%c",ch);
-      if (i < IdLen-1){ id[i] = ch; i++;};
+      sub = false;
+      if(ch==(char)0xe2){ch=fgetc(R);ch=fgetc(R);ch='!';sub = true;};
+      if(ch==(char)0xcc){ch=fgetc(R);ch='?'; sub = true;};
+      if(sub){
+        if (x < IdLen-1){ idx[x] = ch; x++;};
+      }else{
+        if (i < IdLen-1){ id[i] = ch; i++;};
+      }
       ch = fgetc(R);
     } while (!feof(R)&&((ch >= '0' && ch <= '9')||
 	                (ch >= 'A' && ch <= 'Z')||
 	                (ch >= 'a' && ch <= 'z')||
 	                (ch == (char)0xe2)||
 	                (ch == (char)0xcc)));
-    id[i] = 0; 
+    id[i] = 0;
+    idx[x] = 0; 
     if (i < 10){
       k = KWX[i-1];  // search for keyword
       while ((strncmp(id,keyTab[k].id, i) != 0) && (k < KWX[i])) { k++;};

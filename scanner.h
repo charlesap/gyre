@@ -82,13 +82,14 @@
 #define EOT 70
 
 extern char id[IdLen];
+extern char idx[IdLen];
 extern int ival;
 extern int slen;
 extern float rval;
 extern char str[stringBufSize];
 extern int errcnt;
 
-void CopyId(char* ident);
+void CopyId(char* ident,char* identx);
 int Pos(void);
 void BumpErr(int l);
 void Mark(char* msg);

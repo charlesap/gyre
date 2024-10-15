@@ -2,6 +2,7 @@
 // MIT license, see LICENSE
 
 #include "scanner.h"
+#include "generator.h"
 #include <stdio.h>
 
 /*
@@ -31,6 +32,8 @@
 int sym;
 char asid[IdLen];
 char asidx[IdLen];
+char module[IdLen];
+char modulex[IdLen];
 
 void Projection(void){
   char projid[IdLen];
@@ -164,6 +167,7 @@ void For(void){
 	printf("no identifier"); 
       }else{
 	CopyId(forid,foridx);
+	CopyId(module,modulex);
 	Get(&sym);
         if(sym != COLON){
 	  printf("no colon");
@@ -211,7 +215,9 @@ int main(int argc, char** argv) {
   char c;
   FILE *f;
 
+  module[0]=0;
   _scanner();
+  _generator();
   if (argc >= 2){
     for(i=1;i<argc;i++){
       printf("from %s\n",argv[i]);
@@ -219,6 +225,12 @@ int main(int argc, char** argv) {
       sym = NUL;
       Assertions();
       Scanner_Close();
+      if(module[0]!=0){
+	Generator_Open(module);
+	Prologue();
+	Epilogue();
+	Generator_Close();
+      }
     }
   }
   else printf("no input\n");

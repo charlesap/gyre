@@ -42,10 +42,13 @@
 #define LBRACE 30 
 #define IDENT 31
 #define IF 32 
+#define MAPS 33
 #define WHILE 34 
 #define REPEAT 35 
 #define CASE 36 
 #define FOR 37
+#define FLIPS 38
+#define FLOPS 39
 #define COMMA 40 
 #define COLON 41 
 #define BECOMES 42 
@@ -75,6 +78,7 @@
 #define BEGIN 67 
 #define IMPORT 68 
 #define MODULE 69 
+#define UE2 0xE2
 #define EOT 70
 
 extern char id[IdLen];
@@ -89,7 +93,8 @@ int Pos(void);
 void BumpErr(int l);
 void Mark(char* msg);
 void Get(int* sym);
-void Scanner_Init(FILE* T, int pos);
+void Scanner_Init(char* T);
+void Scanner_Close(void);
 void _scanner(void);
 
 

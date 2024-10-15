@@ -3,7 +3,7 @@ for creature:
 -- motor features
 
 motor is
-  eyeₕₛ, head, voice, limbs, internal.
+  head, eyeₕₛ, voice, limbs, internal.
 
 -- motor connections
 

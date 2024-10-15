@@ -6,6 +6,7 @@
 #include "scanner.h"
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h> 
 
 /*exported variables*/
 int ival;
@@ -17,6 +18,7 @@ int errcnt;
 
 /*internal variables*/
 char ch;  
+char ech;
 int errpos;
 FILE* R;
 FILE* W;
@@ -48,32 +50,37 @@ struct kws {
 
   void Mark(char* msg){
     int p;
-    char ss[128];
     p = Pos();
     if ((p > errpos) && (errcnt < 25)){
-//      Emit(" pos ");
-//      Out.Int(p, 1); Emit( " " );
-//      ss= msg; Emit( ss ); EmitLn
+      printf(" filepos %i %s \n",p,msg);
     };
     BumpErr( p + 4 );
   };
 
 
 /* internal functions*/
+//ₕ = e28295
+//₁₆ = e28281,e28286
+
 
   void Identifier(int* sym){
     int i, k;
     i = 0;
     do{
+      if(ch==(char)0xe2){ch=fgetc(R);ch=fgetc(R);ch='!';};
+      if(ch==(char)0xcc){ch=fgetc(R);ch='?';};
+      printf("%c",ch);
       if (i < IdLen-1){ id[i] = ch; i++;};
       ch = fgetc(R);
-    } while ((ch >= '0' && ch <= '9')||
-	     (ch >= 'A' && ch <= 'Z')||
-	     (ch >= 'a' && ch <= 'z'));
+    } while (!feof(R)&&((ch >= '0' && ch <= '9')||
+	                (ch >= 'A' && ch <= 'Z')||
+	                (ch >= 'a' && ch <= 'z')||
+	                (ch == (char)0xe2)||
+	                (ch == (char)0xcc)));
     id[i] = 0; 
     if (i < 10){
       k = KWX[i-1];  // search for keyword
-      while ((id != keyTab[k].id) && (k < KWX[i])) k++;
+      while ((strncmp(id,keyTab[k].id, i) != 0) && (k < KWX[i])) { k++;};
       if (k < KWX[i]) { *sym = keyTab[k].sym; }else{ *sym = IDENT; }
     }else{
       *sym = IDENT;
@@ -207,12 +214,14 @@ struct kws {
       while( !feof(R) && (ch != '\n')){
 	    ch = fgetc(R);
       };
+//      printf("linecomment\n");
   };
 
   void blockcomment(void){
     ch = fgetc(R);
     do{
       while( !feof(R) && (ch != '*')){
+	if( ch == '\n'){ ch = fgetc(R);};
         if( ch == '('){ ch = fgetc(R);};
           if( ch == '*'){
 	    blockcomment();
@@ -230,7 +239,7 @@ struct kws {
 
   void Get(int* sym){
     do{
-      while (!feof(R) && (ch <= ' ')){ ch = fgetc(R); };
+      while (!feof(R) && (ch <= ' ')){ ch = fgetc(R);};
       if( feof(R) ){ *sym = EOT;
       }else if( ch < 'A' ){
         if( ch < '0' ){
@@ -271,7 +280,7 @@ struct kws {
         };
         ch = fgetc(R);
       }else if( ch < '{' ){ Identifier(sym);
-      }else{
+      }else if( ch <= 127){
         if( ch == '{' ){ *sym = LBRACE;
         }else if( ch == '}' ){ *sym = RBRACE;
         }else if( ch == '|' ){ *sym = BAR;
@@ -280,6 +289,10 @@ struct kws {
         }else{ *sym = NUL;
         } ;
         ch = fgetc(R);
+      }else{ //unicode
+	printf("<%i>",ch);
+	*sym = NUL;
+	ch = fgetc(R);
       }
     }while (*sym == NUL);
   };
@@ -292,10 +305,19 @@ struct kws {
   };
 
 /*exported*/
-  void Scanner_Init(FILE* I, int pos){
-    errpos = pos; errcnt = 0; 
-    R = I; ch = fgetc(R);
+  void Scanner_Init(char* I){
+    errpos = 0; errcnt = 0; 
+    R = fopen(I, "r");
+    if (R==NULL){
+      printf("file not found\n");
+    }else{
+//      ch = fgetc(R);
+    }
   };
+
+  void Scanner_Close(void){
+    fclose(R);
+  }
 
 void _scanner(void){
 //  Texts.OpenWriter(W);
@@ -322,6 +344,7 @@ void _scanner(void){
   EnterKW(TRUE, "true");
   EnterKW(TYPE, "type");
   EnterKW(CASE, "case");
+  EnterKW(MAPS, "maps");
   KWX[4] = k;
   EnterKW(ELSIF, "elsif");
   EnterKW(FALSE, "false");
@@ -330,6 +353,8 @@ void _scanner(void){
   EnterKW(CONST, "const");
   EnterKW(UNTIL, "until");
   EnterKW(WHILE, "while");
+  EnterKW(FLIPS, "flips");
+  EnterKW(FLOPS, "flops");
   KWX[5] = k;
   EnterKW(RECORD, "record");
   EnterKW(REPEAT, "repeat");

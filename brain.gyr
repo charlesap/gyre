@@ -24,14 +24,14 @@ LGN is
 V1 is
   hypercolumn hc₀‥₂₅₅ is
     columnᵥ c is
-      minicolumn mc₀‥₁₂₇ holds
+      minicolumn mc₀‥₁₂₇ is
         L2, L3, L4, L5, L6.
 
-L2 holds pyramidal p₁₆, grid g₄, disp d₄.
-L3 holds pyramidal p₁₆, grid g₄, disp d₄.
-L4 holds pyramidal p₁₆, grid g₄, disp d₄.
-L5 holds pyramidal p₁₆, grid g₄, disp d₄.
-L6 holds pyramidal p₁₆, grid g₄, disp d₄.
+L2 has pyramidal p₁₆, grid g₄, disp d₄.
+L3 has pyramidal p₁₆, grid g₄, disp d₄.
+L4 has pyramidal p₁₆, grid g₄, disp d₄.
+L5 has pyramidal p₁₆, grid g₄, disp d₄.
+L6 has pyramidal p₁₆, grid g₄, disp d₄.
 
 -- brain connections
 

@@ -16,38 +16,186 @@
  ScaleFactor = "E" ["+" | "-"] digit {digit}.
  hexDigit = digit | "A" | "B" | "C" | "D" | "E" | "F".
  string = """ {character} """ | digit {hexDigit} "X".
+ projector = "maps" | "flips" | "flops".
 
- qualification = seplist "in" ident ".".
- composition = ident "has" qidentlist ".".
- identity = ident "is" qidentlist ".".
+ Projection = ident projector ident {"and" ident}.
+ qidentlist = ident {"," ident} ".". 
+ Qualification = seplist "in" ident ".".
+ Composition = ident "has" qidentlist ".".
+ Identity = ident "is" [ | qidentlist { ident "is" qidentlist} ] ".".
  for = "for" ident ".".
- assertion = for | identity | composition | qualification.
- assertions = assertion {assertion}.
+ Assertion = For | Identity | Composition | Qualification | Projection.
+ Assertions = Assertion {Assertion}.
 */
 
 int sym;
 
-void assertions(void){
-  int key;
+void Projection(void){
+  int which = sym;
   Get(&sym);
-  while( sym != EOT ){
-    if (sym == FOR){
-    }else if (sym == IDENT){
-      Get(&sym);
-      if (sym == IS){
-        }else if(sym == HAS){
-        }else if(sym == IN){
-        }else{ 
-          sym = EOT;
-          Mark("assertion not recognized.");
-	}
+  if(sym != TO){
+    Mark("no to"); 
+  }else{
+    Get(&sym);
+    if(sym != IDENT){
+      Mark("no identifier"); 
     }else{
-      sym = EOT;
-      Mark("assertion not recognized.");
+      Get(&sym);
+      while(sym == COMMA){
+        Get(&sym);
+        if(sym != IDENT){
+  	Mark("no identifier after comma");
+        }else{
+          Get(&sym);
+        }
+      };
+      if(sym != PERIOD){
+	      printf("#%i#",sym);
+        Mark("no period");
+      }else{
+        printf("\n TO\n");
+        Get(&sym);
+      }
     }
   }
 }
 
+void Composition(void){
+    Get(&sym);
+    if(sym != IDENT){
+      Mark("no type identifier"); 
+    }else{
+      Get(&sym);
+      if(sym != IDENT){
+        Mark("no instance identifier"); 
+      }
+      Get(&sym);
+      printf("==%i=>",sym);
+      while(sym == COMMA){
+	Get(&sym);
+	Get(&sym);
+	Get(&sym);
+      }
+      if(sym == PERIOD){
+          printf("\n HAS\n");
+          Get(&sym);
+      }
+    }
+}
+
+void Identity(void){
+
+  Get(&sym);
+  if(sym == PERIOD){
+    printf("\n IS\n");
+    Get(&sym);
+  }else{
+    if(sym != IDENT){
+      Mark("no identifier"); 
+    }else{
+      Get(&sym);
+      if(sym == IDENT){
+	Get(&sym);
+      }else{
+        while(sym == COMMA){
+          Get(&sym);
+          if(sym != IDENT){
+         Mark("no identifier after comma");
+          }else{
+            Get(&sym);
+          }
+        }
+      
+        if(sym != PERIOD){
+          Mark("no period");
+        }else{
+          printf("\n IS\n");
+          Get(&sym);
+        }
+      }
+    }
+  }
+  if(sym == IS) Identity(); 
+  if(sym == HAS) Composition(); 
+}
+
+void Qualification(void){
+//	printf("{");
+  while(sym == BAR){
+    Get(&sym);
+    if(sym != IDENT){
+      Mark("no identifier after bar");
+    }else{
+      Get(&sym);
+    }
+  }
+  if(sym != IN){
+    Mark("no in");
+  }else{
+    Get(&sym);
+    if(sym != IDENT){
+      Mark("no identifier after in");
+    }else{
+      Get(&sym);
+      if(sym != PERIOD){
+        Mark("no period");
+      }else{
+        printf("\n IN\n");
+        Get(&sym);
+      }
+    }
+  }
+//	printf("}");
+}
+
+void For(void){
+      Get(&sym);
+      if(sym != IDENT){
+	printf("no identifier"); 
+      }else{
+	Get(&sym);
+        if(sym != COLON){
+	  printf("no colon");
+	}else{
+	  printf("\n FOR\n");
+	  Get(&sym);
+	}
+      }
+}
+
+
+void Assertion(void){
+//	printf("[%i]",sym);
+    if (sym == FOR){
+      For();
+    }else if (sym == IDENT){
+      Get(&sym);
+      if (sym == IS){
+        Identity();
+      }else if(sym == HAS){
+        printf("--->");
+        Composition();
+      }else if(sym == BAR){
+        Qualification();
+      }else if((sym == MAPS)||(sym == FLIPS)||(sym == FLOPS)){
+        Projection();
+      }else{
+        Mark("no is/has/in");
+        sym = EOT;
+      }
+    }else{
+      sym = EOT;
+      Mark("assertion not recognized.");
+    };
+//    if(sym != EOT){Get(&sym);}
+}
+
+void Assertions(void){
+  Get(&sym);
+  while( sym != EOT ){
+    Assertion();
+  }
+}
 
 int main(int argc, char** argv) {
   int i;
@@ -58,14 +206,10 @@ int main(int argc, char** argv) {
   if (argc >= 2){
     for(i=1;i<argc;i++){
       printf("reading %s\n",argv[i]);
-      f = fopen(argv[i], "r");
-      if (f==NULL){
-        printf("file not found\n");
-      }else{
-        Scanner_Init(f, 0);
-	assertions();
-      }
-      fclose(f);
+      Scanner_Init(argv[i]);
+      sym = NUL;
+      Assertions();
+      Scanner_Close();
     }
   }
   else printf("no input\n");

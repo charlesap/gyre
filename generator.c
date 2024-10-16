@@ -15,6 +15,10 @@ FILE* W;
 
 
 
+void o(char *s){
+  fputs(s,W);
+  fputc('\n',W);
+}
 
 /*exported*/
 
@@ -30,24 +34,24 @@ void Generator_Open(char *f){
 }
 
 void Prologue(void){
-  fprintf(W,"// begin generated source\n");
-  fprintf(W,"#include <mpi.h>\n");
-  fprintf(W,"#include <stdio.h>\n");
+  o("// begin generated source");
+  o("#include <mpi.h>");
+  o("#include <stdio.h>");
 }
 
 void Epilogue(void){
-  fprintf(W,"int main(int argc, char** argv) {\n");
-  fprintf(W,"    MPI_Init(NULL, NULL);\n");
-  fprintf(W,"    int rank;\n");
-  fprintf(W,"    int world;\n");
-  fprintf(W,"    MPI_Comm_rank(MPI_COMM_WORLD, &rank);\n");
-  fprintf(W,"    MPI_Comm_size(MPI_COMM_WORLD, &world);\n");
-  fprintf(W,"    printf(\"Zero: rank %s, world: %s\\n\",rank, world);fflush(stdout);\n","%d","%d");
-  fprintf(W,"    MPI_Barrier(MPI_COMM_WORLD);\n");
-  fprintf(W,"    printf(\"One: rank %s, world: %s\\n\",rank, world);fflush(stdout);\n","%d","%d");
-  fprintf(W,"    MPI_Finalize();\n");
-  fprintf(W,"}\n");
-  fprintf(W,"// end generated source\n");
+  o("int main(int argc, char** argv) {");
+  o("    MPI_Init(NULL, NULL);");
+  o("    int rank;");
+  o("    int world;");
+  o("    MPI_Comm_rank(MPI_COMM_WORLD, &rank);");
+  o("    MPI_Comm_size(MPI_COMM_WORLD, &world);");
+  o("    printf(\"Zero: rank %d, world: %d\\n\",rank, world);fflush(stdout);");
+  o("    MPI_Barrier(MPI_COMM_WORLD);");
+  o("    printf(\"One: rank %d, world: %d\\n\",rank, world);fflush(stdout);");
+  o("    MPI_Finalize();");
+  o("}");
+  o("// end generated source");
 }
 
 void Generator_Close(void){

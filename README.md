@@ -1,14 +1,16 @@
 # gyre
-brain compiler
+A language for describing neural architecture and a compiler translating that language into MPI c code for execution on clusters of computers.
 
-Build the compiler:
+Requirements: a serial c compiler and an MPI c compiler.
+
+Build the gyre translator:
 ```
-cc scanner.h scanner.c generator.h generator.c parser.c
+cc -o gyre scanner.c generator.c parser.c
 ```
 
-Compile the 'creature' to MPI c code:
+Translate the 'creature' to MPI c code:
 ```
-./a.out creature.gyr motor.gyr sensory.gyr brain.gyr
+./gyre creature.gyr motor.gyr sensory.gyr brain.gyr
 ```
 
 Compile the MPI binary:

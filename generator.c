@@ -42,7 +42,9 @@ void Epilogue(void){
   fprintf(W,"    int world;\n");
   fprintf(W,"    MPI_Comm_rank(MPI_COMM_WORLD, &rank);\n");
   fprintf(W,"    MPI_Comm_size(MPI_COMM_WORLD, &world);\n");
-  fprintf(W,"    printf(\"Hello: rank %s, world: %s\\n\",rank, world);\n","%d","%d");
+  fprintf(W,"    printf(\"Zero: rank %s, world: %s\\n\",rank, world);fflush(stdout);\n","%d","%d");
+  fprintf(W,"    MPI_Barrier(MPI_COMM_WORLD);\n");
+  fprintf(W,"    printf(\"One: rank %s, world: %s\\n\",rank, world);fflush(stdout);\n","%d","%d");
   fprintf(W,"    MPI_Finalize();\n");
   fprintf(W,"}\n");
   fprintf(W,"// end generated source\n");

@@ -2,6 +2,7 @@
 // MIT license, see LICENSE
 
 #include "scanner.h"
+#include "consolidator.h"
 #include "generator.h"
 #include <stdio.h>
 
@@ -217,6 +218,7 @@ int main(int argc, char** argv) {
 
   module[0]=0;
   _scanner();
+  _consolidator();
   _generator();
   if (argc >= 2){
     for(i=1;i<argc;i++){
@@ -225,13 +227,14 @@ int main(int argc, char** argv) {
       sym = NUL;
       Assertions();
       Scanner_Close();
-      if(module[0]!=0){
-	Generator_Open(module);
-	Prologue();
-	Epilogue();
-	Generator_Close();
-      }
     }
+    if(module[0]!=0){
+      Consolidate();
+      Generator_Open(module);
+      Prologue();
+      Epilogue();
+      Generator_Close();
+    } 
   }
   else printf("no input\n");
 

@@ -5,6 +5,8 @@ pip install -r requirements.txt or pip install -r requirements-dev.txt
 
 ruff check .
 
+ruff check . --fix
+
 pytest
 
 coverage report

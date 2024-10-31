@@ -11,12 +11,33 @@ def somethingelse(param):
     return(param-1)
 
 def toast(theinput):
-    inputparser = Lark('''start: WORD "," WORD "!"
+    gyre_parser = Lark(r"""
+        value: (assertion)*
 
-            %import common.WORD   // imports from terminal library
-            %ignore " "           // Disregard spaces in text
-         ''')
-    return( inputparser.parse(theinput) )
+        assertion: for
+                 | identity
+                 | composition
+                 | qualification
+                 | "IS" | "IN" | "AS" | "FLIPS"
+
+        for : "for" CNAME "."
+        identity : CNAME "is" namelist "."
+        composition : CNAME "has" namelist "."
+        qualification : orlist "in" CNAME [mirrored] "."
+
+        mirrored : "mirrored"
+        orlist : CNAME "|" CNAME ("|" CNAME)*
+        namelist : [CNAME ("," CNAME)*]
+
+        %import common.ESCAPED_STRING
+        %import common.SIGNED_NUMBER
+        %import common.CNAME
+        %import common.WS
+        %ignore WS
+
+        """, start='value')
+
+    return( gyre_parser.parse(theinput) )
 
 
 

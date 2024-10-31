@@ -1,8 +1,9 @@
 # first test
 
-from lark import Tree, Token
+from lark import Token, Tree
 
 from operations import something, somethingelse, toast
+
 
 def test_something():
     assert something(1) == 2

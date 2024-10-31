@@ -62,8 +62,8 @@ void Projection(void){
 	      printf("#%i#",sym);
         Mark("no period");
       }else{
-        printf(" TO: %s%s\n",asid,asidx);
-        Get(&sym);
+        PutTo(asid,asidx);
+	Get(&sym);
       }
     }
   }
@@ -88,7 +88,7 @@ void Composition(void){
 	Get(&sym);
       }
       if(sym == PERIOD){
-          printf(" HAS: %s%s\n",asid,asidx);
+          PutHas(asid,asidx);
           Get(&sym);
       }
     }
@@ -120,7 +120,7 @@ void Identity(void){
         if(sym != PERIOD){
           Mark("no period");
         }else{
-          printf(" IS: %s%s\n",asid,asidx);
+          PutIs(asid,asidx);
           Get(&sym);
         }
       }
@@ -153,7 +153,7 @@ void Qualification(void){
       if(sym != PERIOD){
         Mark("no period");
       }else{
-        printf(" IN: %s%s\n",qualid,qualidx);
+        PutIn(qualid,qualidx);
         Get(&sym);
       }
     }
@@ -173,7 +173,7 @@ void For(void){
         if(sym != COLON){
 	  printf("no colon");
 	}else{
-	  printf(" FOR: %s%s\n",forid,foridx);
+          PutFor(forid,foridx);
 	  Get(&sym);
 	}
       }
@@ -221,6 +221,7 @@ int main(int argc, char** argv) {
   _consolidator();
   _generator();
   if (argc >= 2){
+    printf("Parsing\n");
     for(i=1;i<argc;i++){
       printf("from %s\n",argv[i]);
       Scanner_Init(argv[i]);
@@ -229,6 +230,7 @@ int main(int argc, char** argv) {
       Scanner_Close();
     }
     if(module[0]!=0){
+      printf("Consolidating\n");
       Consolidate();
       Generator_Open(module);
       Prologue();

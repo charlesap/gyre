@@ -3,7 +3,7 @@ for creature:
 -- sensory features
 
 sensory is
-  retinaₕ, earₕ, skin, epithelium.
+  retinaₕ, cochnₕ, skin, epithelium.
 
 retina is
   magno, parvo.
@@ -12,4 +12,13 @@ retina is
 
 retinaₕₜ maps to LGNₕ•L1 , LGNₕ•L3 , LGNₕ•L5 .
 retinaₕₙ flips to LGNₕ̃•L2 , LGNₕ̃•L4 , LGNₕ̃•L6 .
+
+cochnₕ spreads across MSOₕ, LSOₕ.
+cochnₕ spreads across MSOₕ̃, LSOₕ̃. -- becaue ₕ̃ it spreads backwards it enables coincidence detection of timing difference
+
+
+MSOₕ maps to ICₕ•A1. -- Medial superior olive
+LSOₕ maps to ICₕ•A2. -- Lateral superior olive, Inferior Colliculus
+
+ICₕ maps to MGNₕ. -- Medial Genticulate Nucleus (thalamic relay)
 

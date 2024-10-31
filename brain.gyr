@@ -8,7 +8,9 @@ brain is
 vision is
   LGNₕ, V1ₕ, V2dₕ, V2vₕ, V3ₕ, VPₕ, V3aₕ, V4vₕ, V5ₕ.
 
-hearing is.
+hearing is
+  MGNₕ, A1ₕ.
+
 touch is.
 
 smell is
@@ -36,4 +38,5 @@ L6 has pyramidal p₁₆, grid g₄, disp d₄.
 -- brain connections
 
 LGNₕ maps to L1ₕ.
+MGNₕ maps to A1ₕ.
 

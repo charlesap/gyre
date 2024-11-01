@@ -24,10 +24,19 @@ def toast(theinput):
         identity : CNAME "is" namelist "."
         composition : CNAME "has" namelist "."
         qualification : orlist "in" CNAME [mirrored] "."
+        projection : CNAME projector modifier CNAME "."
 
+        modifier : "to" | "accross" 
+        projector : "maps" | "flips" | "flops" | "spreads" 
         mirrored : "mirrored"
+        qname : CNAME (subletter | notsubletter | subnumber | subpunct )
         orlist : CNAME "|" CNAME ("|" CNAME)*
         namelist : [CNAME ("," CNAME)*]
+
+        subletter : "ₕ" | "ₙ" | "ₜ" | "ᵥ" 
+        notsubletter : "ₕ̃"
+        subnumber : "₀"| "₁" | "₂" | "₄" | "₆" | "₇"
+        subpunct : "‥" | "•"
 
         %import common.ESCAPED_STRING
         %import common.SIGNED_NUMBER

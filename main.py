@@ -9,7 +9,7 @@ from operations import something, somethingelse, toast
 #            %ignore " "           // Disregard spaces in text
 #         ''')
 
-print( toast("Hello, World!"))
+print( toast("l | r in h mirrored."))
 #print( example.parse("Hello, World!") )
 print( something(1))
 print( somethingelse(1))

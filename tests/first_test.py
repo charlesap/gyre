@@ -15,22 +15,26 @@ def test_somethingelse():
 
 def test_toast():
        assert toast('''
-         for brain.
+         for creature.
        ''') == Tree(Token('RULE', 'value'),
                     [Tree(Token('RULE', 'assertion'),
                           [Tree(Token('RULE', 'for'),
-                                [Token('CNAME', 'brain')])])])
+                                [Token('CNAME', 'creature')])])])
 
        assert toast('''
-         brain is cortex, hippocampus, thalamus.
-       ''') ==       Tree(Token('RULE', 'value'),
-                          [Tree(Token('RULE', 'assertion'),
-                                [Tree(Token('RULE', 'identity'),
+         brainₕ is cortex, hippocampus, thalamus.
+       ''') == Tree(Token('RULE', 'value'),
+                    [Tree(Token('RULE', 'assertion'),
+                          [Tree(Token('RULE', 'identity'),
+                                [Tree(Token('RULE', 'qname'),
                                       [Token('CNAME', 'brain'),
-                                       Tree(Token('RULE', 'namelist'),
-                                            [Token('CNAME', 'cortex'),
-                                             Token('CNAME', 'hippocampus'),
-                                             Token('CNAME', 'thalamus')])])])]) 
+                                       Tree(Token('RULE', 'qual'),
+                                            [Tree('subh', [])])]),
+                                 Tree(Token('RULE', 'namelist'),
+                                      [Token('CNAME', 'cortex'),
+                                       Token('CNAME', 'hippocampus'),
+                                       Token('CNAME', 'thalamus')])])])])
+
 
        assert toast('''
          L2 has pyramidal, grid, disp.

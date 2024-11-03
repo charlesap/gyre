@@ -30,23 +30,35 @@ def test_toast():
                                       [Token('CNAME', 'brain'),
                                        Tree(Token('RULE', 'qual'),
                                             [Tree('subh', [])])]),
-                                 Tree(Token('RULE', 'namelist'),
-                                      [Token('CNAME', 'cortex'),
-                                       Token('CNAME', 'hippocampus'),
-                                       Token('CNAME', 'thalamus')])])])])
+                                 Tree(Token('RULE', 'identx'),
+                                      [Tree(Token('RULE', 'namelist'),
+                                            [Tree(Token('RULE', 'qname'),
+                                                  [Token('CNAME', 'cortex'), None]),
+                                             Tree(Token('RULE', 'qname'),
+                                                  [Token('CNAME', 'hippocampus'), None]),
+                                             Tree(Token('RULE', 'qname'),
+                                                  [Token('CNAME', 'thalamus'), None])])])])])])
 
 
        assert toast('''
-         L2 has pyramidal, grid, disp.
-       ''') == Tree(Token('RULE', 'value'),
-                    [Tree(Token('RULE', 'assertion'),
-                          [Tree(Token('RULE', 'composition'),
+         L2 has pyramidal p, grid g, disp d.
+       ''') == Tree(Token('RULE', 'value'), 
+                    [Tree(Token('RULE', 'assertion'), 
+                          [Tree(Token('RULE', 'composition'), 
                                 [Token('CNAME', 'L2'),
-                                 Tree(Token('RULE', 'namelist'),
-                                      [Token('CNAME', 'pyramidal'),
-                                       Token('CNAME', 'grid'),
-                                       Token('CNAME', 'disp')])])])]) 
-
+                                 Tree(Token('RULE', 'pairlist'),
+                                      [Tree(Token('RULE', 'qname'),
+                                            [Token('CNAME', 'pyramidal'), None]),
+                                       Tree(Token('RULE', 'qname'),
+                                            [Token('CNAME', 'p'), None]),
+                                       Tree(Token('RULE', 'qname'),
+                                            [Token('CNAME', 'grid'), None]),
+                                       Tree(Token('RULE', 'qname'),
+                                            [Token('CNAME', 'g'), None]),
+                                       Tree(Token('RULE', 'qname'),
+                                            [Token('CNAME', 'disp'), None]),
+                                       Tree(Token('RULE', 'qname'),
+                                            [Token('CNAME', 'd'), None])])])])])
 
        assert toast('''
          l | r in h mirrored.
@@ -54,7 +66,8 @@ def test_toast():
                     [Tree(Token('RULE', 'assertion'),
                           [Tree(Token('RULE', 'qualification'),
                                 [Tree(Token('RULE', 'orlist'),
-                                      [Token('CNAME', 'l'), Token('CNAME', 'r')]),
+                                      [Token('CNAME', 'l'),
+                                       Token('CNAME', 'r')]),
                                  Token('CNAME', 'h'),
                                  Tree(Token('RULE', 'mirrored'), [])])])])
 

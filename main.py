@@ -4,6 +4,7 @@ import argparse
 
 from operations import toast
 
+
 parser = argparse.ArgumentParser()
 parser.add_argument("-v", "--verbose", help="increase verbosity",
                     action="store_true")
@@ -20,10 +21,10 @@ if args.ids == []:
     print("no input files")
 else:
     for element in args.ids:
-        print(element)
+        print("reading ",element)
         with open(element, 'r', encoding='utf-8') as f:
             text = f.read()
-            print(toast(text))
+            print(toast(text).pretty())
 
 #print( toast("l | r in h mirrored."))
 

@@ -18,6 +18,7 @@ def toast(theinput):
                  | identity
                  | composition
                  | qualification
+                 | projection
                  | "IS" | "IN" | "AS" | "FLIPS"
 
         COMMENT: "--" /[^\n]*/ NEWLINE
@@ -25,24 +26,27 @@ def toast(theinput):
         NEWLINE: "\n"
 
         for : "for" CNAME "."
-        identity : qname "is" namelist "."
-        composition : CNAME "has" namelist "."
+        identity : qname "is" identx
+        identx : namelist "." | qname identity
+        composition : CNAME "has" pairlist "."
         qualification : orlist "in" CNAME [mirrored] "."
-        projection : CNAME projector modifier CNAME "."
+        projection : qname projector modifier mname ("," mname)* "."
 
-        modifier : "to" | "accross" 
+        modifier : "to" | "across" 
         projector : "maps" | "flips" | "flops" | "spreads" 
         mirrored : "mirrored"
         qname : CNAME [qual]
+        mname : CNAME [qual] (subbullet CNAME [qual])*
         qual : subrange | subletter ( subletter | notsubletter )* | notsubletter ( subletter * notsubletter )*
         orlist : CNAME "|" CNAME ("|" CNAME)*
-        namelist : [CNAME ("," CNAME)*]
+        namelist : [qname ("," qname)*]
+        pairlist : [qname qname ("," qname qname)*]
 
-        subletter : "ₕ" -> subh | "ₙ" -> subn | "ₜ" -> subt | "ᵥ" -> subv 
+        subletter : "ₕ" -> subh | "ₙ" -> subn | "ₛ" -> subs | "ₜ" -> subt | "ᵥ" -> subv 
         notsubletter : "ₕ̃" -> nsubh
         subrange : subnumber [ subdotdot subnumber ]
         subnumber : subdigit (subdigit)*
-        subdigit : "₀" -> sub0 | "₁" -> sub1 | "₂" -> sub2 | "₄" -> sub4 | "₆" -> sub6 | "₇" -> sub7
+        subdigit : "₀" -> sub0 | "₁" -> sub1 | "₂" -> sub2 | "₄" -> sub4 | "₅" -> sub5 | "₆" -> sub6 | "₇" -> sub7
         subdotdot : "‥"
         subbullet : "•" 
 

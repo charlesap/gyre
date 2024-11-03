@@ -20,6 +20,10 @@ def toast(theinput):
                  | qualification
                  | "IS" | "IN" | "AS" | "FLIPS"
 
+        COMMENT: "--" /[^\n]*/ NEWLINE
+        %ignore COMMENT
+        NEWLINE: "\n"
+
         for : "for" CNAME "."
         identity : qname "is" namelist "."
         composition : CNAME "has" namelist "."

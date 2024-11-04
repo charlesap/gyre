@@ -20,6 +20,12 @@ taste is.
 integration is.
 cognition is.
 
+V1ₕ borders V2ₕ, V3ₕ.
+V2ₕ borders V1ₕ, V4ₕ.
+V3ₕ borders V1ₕ, V5ₕ.
+V4ₕ borders V2ₕ.
+V5ₕ borders V3ₕ.
+
 LGN is
   L1, L2, L3, L4, L5, L6.
 

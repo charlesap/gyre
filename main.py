@@ -2,7 +2,7 @@
 
 import argparse
 
-from operations import toast
+from operations import toast, blast, collate, produce
 
 
 parser = argparse.ArgumentParser()
@@ -20,11 +20,24 @@ if args.verbose:
 if args.ids == []:
     print("no input files")
 else:
+    ok = True
+    thecst = {}
+    scopes = {}
     for element in args.ids:
-        print("reading ",element)
-        with open(element, 'r', encoding='utf-8') as f:
-            text = f.read()
-            print(toast(text).pretty())
+        if ok:
+            print("reading ",element)
+            with open(element, 'r', encoding='utf-8') as f:
+                text = f.read()
+                theast = toast(text)
+                print(theast.pretty())
+                ok = blast(theast,thecst,scopes)
+    if ok:
+        ok,current = collate(thecst)
 
-#print( toast("l | r in h mirrored."))
+    if ok:
+        ok = produce(current,thecst)
 
+    if ok:
+        print("generation complete.")
+    else:
+        print("generation failed.")

@@ -2,18 +2,10 @@
 from lark import Lark, Transformer, Tree
 
 
-def something(param):
-    """Does something."""
-    return(param+1)
-
-def somethingelse(param):
-    """Does something."""
-    return(param-1)
-
 class GyreTransformer(Transformer):
 
     def scope(self, args):
-        return "FOR",""+args[0],None,[]
+        return "FOR",""+args[0],None,None,None
 
     def qname(self, args):
         return ""+args[0],args[1]
@@ -44,20 +36,20 @@ class GyreTransformer(Transformer):
 
     def layout(self, args):
         nm0, nm1 = args[0]
-        return "BORDERS",nm0,nm1,args[1]
+        return "BORDERS",nm0,nm1,args[1],None
 
     def modifier(self, args):
         return ""+args[0]
 
     def identity(self, args):
         nm0, nm1 = args[0]
-        return "IS",nm0,nm1,args[1]
+        return "IS",nm0,nm1,args[1],None
 
     def composition(self, args):
-        return "HAS",""+args[0],None,args[1]
+        return "HAS",""+args[0],None,args[1],None
 
     def qualification(self, args):
-        return "IN",""+args[1],args[0]
+        return "IN",""+args[1],args[0],None,None
 
     def projection(self, args):
         if len(args) == 4:
@@ -144,4 +136,85 @@ def toast(theinput):
 
     return( gyre_parser.parse(theinput) )
 
+def whoops(value):
+    print(value)
 
+def blast(theast,thecst,scopes):
+    ok = True
+    current = ""
+    for inst in theast.children:
+        if inst.data == 'assertion':
+            if len(inst.children[0]) != 5:
+                print(inst.children[0])
+            kind,name,first,second,third = inst.children[0]
+            
+            if kind == 'FOR':
+                current = name
+                if name in scopes.keys():
+                    scopes[name]=[scopes[name][0]+1,True]
+                else:
+                    scopes[name]=[1,True]
+            if kind == 'IS':
+                if name in thecst.keys():
+                    if thecst[name][1]==True:
+                        whoops(" 'is' principal already defined.")
+                    else:
+                        thecst[name]=[thecst[name][0]+1,True,thecst[name][2]]
+                else:
+                    thecst[name]=[1,True,current]
+            if kind == 'BORDERS':
+                if name in thecst.keys():
+                    thecst[name]=[thecst[name][0]+1,True,thecst[name][2]]
+                else:
+                    thecst[name]=[1,False,current]
+            if kind == 'MAPS' or kind == 'FLIPS' or kind == 'FLOPS' or kind == 'SPREADS' :
+                if name in thecst.keys():
+                    thecst[name]=[thecst[name][0]+1,True,thecst[name][2]]
+                else:
+                    thecst[name]=[1,False,current]
+    return ok
+
+def collate(thecst):
+    ok = True
+    current=""
+    for assrt,things in thecst.items():
+        if ok:
+            if current == "":
+                current = things[2]
+            if current != things[2]:
+                print(assrt,"mixed use of for statements")
+                ok = False;
+            if things[1]==False:
+                print(assrt,"refereced but not defined")
+                ok = False
+#            else:
+#                print(assrt,things)
+    return ok,current
+
+def produce(current,thecst):
+    ok = True
+    print("generating",current+".c")
+    cfile = open(current+".c", "w")
+    cfile.write('''// begin generated source
+#include <mpi.h>
+#include <stdio.h>
+int main(int argc, char** argv) {
+    MPI_Init(NULL, NULL);
+    int rank;
+    int world;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &world);
+    printf("Zero: rank %d, world: %d\n",rank, world);fflush(stdout);
+    MPI_Barrier(MPI_COMM_WORLD);
+    printf("One: rank %d, world: %d\n",rank, world);fflush(stdout);
+    MPI_Finalize();
+}
+// end generated source
+''')
+
+    for name,thing in thecst.items():
+#        print(name,thing)
+        pass
+
+    cfile.close()
+    return ok

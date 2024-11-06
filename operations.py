@@ -204,9 +204,9 @@ int main(int argc, char** argv) {
     int world;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &world);
-    printf("Zero: rank %d, world: %d\n",rank, world);fflush(stdout);
+    printf("Zero: rank %d, world: %d\\n",rank, world);fflush(stdout);
     MPI_Barrier(MPI_COMM_WORLD);
-    printf("One: rank %d, world: %d\n",rank, world);fflush(stdout);
+    printf("One: rank %d, world: %d\\n",rank, world);fflush(stdout);
     MPI_Finalize();
 }
 // end generated source

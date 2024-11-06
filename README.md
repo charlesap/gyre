@@ -1,16 +1,12 @@
 # gyre
 A language for describing neural architecture and a compiler translating that language into MPI c code for execution on clusters of computers.
 
-Requirements: a serial c compiler and an MPI c compiler.
+Requirements: python and an MPI c compiler.
 
-Build the gyre translator:
-```
-cc -o gyre scanner.c generator.c parser.c
-```
 
 Translate the 'creature' to MPI c code:
 ```
-./gyre creature.gyr motor.gyr sensory.gyr brain.gyr
+./gyre.py *.gyr
 ```
 
 Compile the MPI binary:

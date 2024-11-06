@@ -1,6 +1,6 @@
 # operations 
 from lark import Lark, Transformer, Tree
-
+import os
 
 class GyreTransformer(Transformer):
 
@@ -193,24 +193,23 @@ def collate(thecst):
 
 def produce(current,thecst):
     ok = True
+    if "GYREDIR" in os.environ.keys():
+        gyredir = os.environ["GYREDIR"]
+        print(gyredir)
+    else:
+        gyredir = "."
+   
+    pfile = open(gyredir+"/c/prologue.c")
+    prologue = pfile.read()
+    pfile.close()
+    efile = open(gyredir+"/c/epilogue.c")
+    epilogue = efile.read()
+    efile.close()
+
     print("generating",current+".c")
     cfile = open(current+".c", "w")
-    cfile.write('''// begin generated source
-#include <mpi.h>
-#include <stdio.h>
-int main(int argc, char** argv) {
-    MPI_Init(NULL, NULL);
-    int rank;
-    int world;
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    MPI_Comm_size(MPI_COMM_WORLD, &world);
-    printf("Zero: rank %d, world: %d\\n",rank, world);fflush(stdout);
-    MPI_Barrier(MPI_COMM_WORLD);
-    printf("One: rank %d, world: %d\\n",rank, world);fflush(stdout);
-    MPI_Finalize();
-}
-// end generated source
-''')
+    cfile.write(prologue)
+    cfile.write(epilogue)
 
     for name,thing in thecst.items():
 #        print(name,thing)

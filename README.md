@@ -3,6 +3,12 @@ A language for describing neural architecture and a compiler translating that la
 
 Requirements: python and an MPI c compiler.
 
+For python:
+```
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements-dev.txt
+```
 
 Translate the 'creature' to MPI c code:
 ```
@@ -18,3 +24,12 @@ Run the binary on 8 cores:
 ```
 mpirun -np 8 ./creature
 ```
+
+When developing:
+```
+ruff check .
+ruff check . --fix
+pytest
+coverage report
+```
+

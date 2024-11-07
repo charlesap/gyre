@@ -7,16 +7,18 @@ For python:
 ```
 python3 -m venv .venv
 source .venv/bin/activate
+export GYRDIR="."
 pip install -r requirements-dev.txt
 ```
 
 Translate the 'creature' to MPI c code:
 ```
-./gyre.py *.gyr
+./gyre.py gyr/*.gyr
 ```
 
 Compile the MPI binary:
 ```
+pushd .; cd c; gcc -shared -o cortical.so cortical.c; popd
 mpicc -o creature creature.c
 ```
 

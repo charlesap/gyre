@@ -1,6 +1,8 @@
 # operations 
 from lark import Lark, Transformer, Tree
 import os
+import math
+import psutil
 
 class GyreTransformer(Transformer):
 
@@ -216,4 +218,9 @@ def produce(current,thecst):
         pass
 
     cfile.close()
+    ncores=os.cpu_count()
+    ram=psutil.virtual_memory().total 
+    print("suggested compile: mpicc -o "+current+" "+current+".c")
+    print("suggested run: mpirun -np "+str(ncores)+" ./"+current+" -m "+str(math.floor(ram/1024/1024/ncores)))
+
     return ok

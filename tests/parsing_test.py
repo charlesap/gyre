@@ -2,7 +2,7 @@
 
 from lark import Token, Tree
 
-from operations import toast, blast
+from parsing import toast, blast
 
 
 def test_toast():

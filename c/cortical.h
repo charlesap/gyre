@@ -8,3 +8,5 @@ struct synapse {
 	char ah;
 };
 
+extern long fact(long n);
+

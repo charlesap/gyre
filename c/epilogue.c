@@ -11,6 +11,10 @@ void term(int signum)
 int communicate(int done,int rank,int world){
     int rv = done;
     int v[8];
+
+    long q;
+    q = fact(5);
+
     for(int i = 0; i < 8; i++)
     {
 	if(done==1){

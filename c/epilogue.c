@@ -19,11 +19,11 @@ int communicate(int done,int rank,int world){
             v[i] = 100 + rank * 800 + i * 100;
 	}
     }
-    printf("Process %d, my values = %d, %d, %d, %d, %d, %d, %d, %d.\n", rank, v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7]);
+//    printf("Process %d, my values = %d, %d, %d, %d, %d, %d, %d, %d.\n", rank, v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7]);
  
     int r[8];
     MPI_Alltoall(&v, 1, MPI_INT, r, 1, MPI_INT, MPI_COMM_WORLD);
-    printf("Values collected on process %d: %d, %d, %d %d, %d, %d, %d, %d.\n", rank, r[0], r[1], r[2], r[3], r[4], r[5], r[6], r[7]);
+//    printf("Values collected on process %d: %d, %d, %d %d, %d, %d, %d, %d.\n", rank, r[0], r[1], r[2], r[3], r[4], r[5], r[6], r[7]);
 
     for(int i = 0; i < 8; i++)
     {

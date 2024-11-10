@@ -4,4 +4,5 @@
 #include <string.h>
 #include <unistd.h>
 #include <signal.h>
-#include "cortical.h"
+#include "c/cortical.h"
+#include "c/interface.h"

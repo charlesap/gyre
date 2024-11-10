@@ -51,19 +51,26 @@ int main(int argc, char** argv) {
     int got;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &world);
-    printf("start: pid %d rank %d, world: %d\n",getpid(), rank, world);fflush(stdout);
-    for(int i=0;(done==0)&&(i<60);i++){
-      MPI_Barrier(MPI_COMM_WORLD);
-      done = communicate(0,rank,world);
-      sleep(1);
-      if(rank==0){
-        printf("%d: pid %d rank %d, world: %d\n",i,getpid(), rank, world);fflush(stdout);
+
+    int ok = prepif(8080+rank);
+
+    if( ok != 0){
+      printf("Couldn't open interface udp port.");
+    }else{
+      printf("start: pid %d rank %d, world: %d\n",getpid(), rank, world);fflush(stdout);
+      for(int i=0;(done==0)&&(i<60);i++){
+        MPI_Barrier(MPI_COMM_WORLD);
+        done = communicate(0,rank,world);
+        sleep(1);
+        if(rank==0){
+          printf("%d: pid %d rank %d, world: %d\n",i,getpid(), rank, world);fflush(stdout);
+        }
       }
+      if((done==1)&&(catcher==1)){
+        MPI_Barrier(MPI_COMM_WORLD);
+        communicate(done,rank,world);
+      }
+      MPI_Finalize();
     }
-    if((done==1)&&(catcher==1)){
-      MPI_Barrier(MPI_COMM_WORLD);
-      communicate(done,rank,world);
-    }
-    MPI_Finalize();
 }
 // end generated source

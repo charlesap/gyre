@@ -19,7 +19,7 @@ Translate the 'creature' to MPI c code:
 Compile the MPI binary:
 ```
 pushd .; cd c; gcc -shared -o cortical.so cortical.c; popd
-mpicc -o creature creature.c
+mpicc -o creature creature.c c/cortical.c c/interface.c
 ```
 
 Run the binary on 8 cores:

@@ -61,10 +61,15 @@ int main(int argc, char** argv) {
       for(int i=0;(done==0)&&(i<60);i++){
         MPI_Barrier(MPI_COMM_WORLD);
         done = communicate(0,rank,world);
-        sleep(1);
-        if(rank==0){
-          printf("%d: pid %d rank %d, world: %d\n",i,getpid(), rank, world);fflush(stdout);
-        }
+	if(done==0){
+	  done = checkif();
+	}
+	if(done==0){
+          sleep(1);
+          if(rank==0){
+            printf("%d: pid %d rank %d, world: %d\n",i,getpid(), rank, world);fflush(stdout);
+          }
+	}
       }
       if((done==1)&&(catcher==1)){
         MPI_Barrier(MPI_COMM_WORLD);

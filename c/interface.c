@@ -29,6 +29,8 @@ int prepif(int myport) {
   if (bind(sockfd, (struct sockaddr *) &myaddr, 
 	   sizeof(myaddr)) < 0) 
     return -1;
+  fcntl(sockfd, F_SETFL, O_NONBLOCK);
+
   return 0;
 }
 
@@ -40,7 +42,19 @@ int checkif(void){
   int n;
   struct sockaddr_in theiraddr;
   unsigned int theirlen = sizeof(theiraddr);
-  while (1) {
+
+  fd_set readfds;
+  struct timeval tv;
+  tv.tv_sec = 0;
+  tv.tv_usec = 0;
+  int rv;
+
+//  while (1) {
+  FD_ZERO(&readfds);
+  FD_SET(sockfd, &readfds);
+  rv = select(sockfd + 1, &readfds, NULL, NULL, &tv); 
+
+  while(rv != 0){ 
 
     bzero(buf, BUFSIZE);
     n = recvfrom(sockfd, buf, BUFSIZE, 0,
@@ -63,6 +77,9 @@ int checkif(void){
 	       (struct sockaddr *) &theiraddr, theirlen);
     if (n < 0) 
       return -1;
+    FD_ZERO(&readfds);
+    FD_SET(sockfd, &readfds);
+    rv = select(sockfd + 1, &readfds, NULL, NULL, &tv); 
   }
   return 0;
 }

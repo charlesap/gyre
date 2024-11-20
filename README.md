@@ -1,7 +1,7 @@
 # gyre
 A higher level language for describing neural architecture and a compiler translating that language into MPI c code for execution on clusters of computers.
 
-e.g--
+## Syntax Examples
 
 modular source:
 ```
@@ -72,7 +72,9 @@ V1 is
 ```
 
 
-Requirements: python and an MPI c compiler.
+##Requirements 
+
+python and an MPI c compiler.
 
 For python:
 ```

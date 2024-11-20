@@ -43,9 +43,9 @@ LGN maps to V1.
 MGN maps to A1.
 V1 maps to V2 via AGN.
 retinaₕₜ maps to LGNₕ•L1 , LGNₕ•L3 , LGNₕ•L5 .  -- binocular vision interleaved because
-retinaₕₙ flips to LGNₕ̃•L2 , LGNₕ̃•L4 , LGNₕ̃•L6 . -- nasal half of signal goes to other hemisphere
+retinaₕₙ flips to LGNₕ̃•L2 , LGNₕ̃•L4 , LGNₕ̃•L6 . -- nasal half goes to other hemisphere
 cochn spreads across MSO, LSO.    -- phase advances across the region and
-cochnₕ spreads across MSOₕ̃, LSOₕ̃. -- becaue ₕ̃ spreads phasing backwards timing coincidence can be detected
+cochnₕ spreads across MSOₕ̃, LSOₕ̃. -- ₕ̃ spreads phase backwards for coincidence detect
 ```
 
 physical proximity allows lateral connections:

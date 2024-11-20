@@ -29,11 +29,11 @@ o|u in p.          -- dorsal/ventral position.
 
 subscripts apply parameters to regions which subregions inherit:
 ```
-brainₕ is
+brainₕ is          -- two hemispheres, l and r
   cortex, thalamus, bah, stem.
 thalamus is        -- implicit ₕ
   AGN, LGN, MGN. 
-bah is
+bah is             -- implicit ₕ
   bganglia, amygdala, hcampus.
 ```
 

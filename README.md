@@ -4,7 +4,9 @@ A higher level language for describing neural architecture and a compiler transl
 e.g--
 
 modular source:
-```for creature.``` 
+```
+for creature.
+``` 
 
 comments:
 ```

@@ -32,7 +32,7 @@ subscripts apply parameters to regions which subregions inherit:
 brainₕ is          -- two hemispheres, l and r
   cortex, thalamus, bah, stem.
 thalamus is        -- implicit ₕ
-  AGN, LGN, MGN. 
+  AGN, LGN₀‥₅, MGN. 
 bah is             -- implicit ₕ
   bganglia, amygdala, hcampus.
 ```
@@ -42,10 +42,10 @@ regions may feed-forward to multiple other regions preserving or permuting order
 LGN maps to V1.
 MGN maps to A1.
 V1 maps to V2 via AGN.
-retinaₕₜ maps to LGNₕ•L1 , LGNₕ•L3 , LGNₕ•L5 .  -- binocular vision interleaved because
-retinaₕₙ flips to LGNₕ̃•L2 , LGNₕ̃•L4 , LGNₕ̃•L6 . -- nasal half goes to other hemisphere
-cochn spreads across MSO, LSO.    -- phase advances across the region and
-cochnₕ spreads across MSOₕ̃, LSOₕ̃. -- ₕ̃ spreads phase backwards for coincidence detect
+retinaₕₜ maps to LGNₕ₀, LGNₕ₂, LGNₕ₄,.  -- binocular vision interleaved because
+retinaₕₙ flips to LGNₕ̃₁, LGNₕ̃₃, LGNₕ̃₅.  -- nasal half goes to other hemisphere
+cochn spreads across MSO, LSO.          -- phase advances across the region and
+cochnₕ spreads across MSOₕ̃, LSOₕ̃.       -- ₕ̃ spreads phase backwards for coincidence detect
 ```
 
 physical proximity allows lateral connections:
@@ -65,8 +65,6 @@ hypercolumn hc₀‥₂₅₅ is
       L2, L3, L4, L5, L6.
 
 
-LGN is
-  L1, L2, L3, L4, L5, L6.
 
 V1 is
 ```

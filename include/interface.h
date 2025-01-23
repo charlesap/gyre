@@ -1,4 +1,4 @@
-#import <fcntl.h>
+#include <fcntl.h>
 
 extern int prepif(int myport);
 extern int checkif(char * hname);

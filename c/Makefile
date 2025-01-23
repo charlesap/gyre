@@ -1,5 +1,6 @@
 IDIR =../include
-CC=mpicc
+CC=gcc
+MPICC=mpicc
 
 UNAME := $(shell uname)
 
@@ -15,20 +16,31 @@ LDIR =../lib
 
 LIBS=-lm
 
-_DEPS = gyre.h cortical.h interface.h
-DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
+_SODEPS = cortical.h interface.h
+SODEPS = $(patsubst %,$(IDIR)/%,$(_SODEPS))
+
+_GDEPS = gyre.h cortical.h interface.h
+GDEPS = $(patsubst %,$(IDIR)/%,$(_GDEPS))
 
 _OBJ = gyre.o cortical.o interface.o 
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
+_SO = cortical.so interface.so 
+SO = $(patsubst %,$(LDIR)/%,$(_SO))
 
-$(ODIR)/%.o: %.c $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+$(ODIR)/%.o: %.c $(GDEPS)
+	$(MPICC) -c -o $@ $< $(CFLAGS)
+	
+$(LDIR)/%.so: $(SODEPS)
+	$(CC) -shared -c -o $@ $< $(CFLAGS)
 
 gyre: $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+	$(MPICC) -o $@ $^ $(CFLAGS) $(LIBS)
+
+shared: $(SO)
+	echo "shared"
 
 .PHONY: clean
 
 clean:
-	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~ 
+	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~ $(LDIR)/*.so

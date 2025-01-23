@@ -1,8 +1,7 @@
-// begin generated source
+#include <signal.h>
 #include <mpi.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include <signal.h>
-#include "c/cortical.h"
-#include "c/interface.h"
+#include "cortical.h"
+#include "interface.h"

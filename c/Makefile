@@ -1,6 +1,14 @@
 IDIR =../include
 CC=mpicc
+
+UNAME := $(shell uname)
+
+ifeq ($(UNAME), Linux)
+CFLAGS=-I$(IDIR) -std=gnu99
+else
 CFLAGS=-I$(IDIR)
+endif
+
 
 ODIR=obj
 LDIR =../lib

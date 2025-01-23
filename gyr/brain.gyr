@@ -35,6 +35,19 @@ V1 is
       minicolumn mc₀‥₁₂₇ is
         L2, L3, L4, L5, L6.
 
+
+V1 is.
+V2 is.
+V3 is.
+V4 is.
+V5 is.
+
+MGN is.
+LSO is.
+MSO is.
+IC is.
+Th is.
+
 L2 has pyramidal p₁₆, grid g₄, disp d₄.
 L3 has pyramidal p₁₆, grid g₄, disp d₄.
 L4 has pyramidal p₁₆, grid g₄, disp d₄.
@@ -43,6 +56,11 @@ L6 has pyramidal p₁₆, grid g₄, disp d₄.
 
 -- brain connections
 
-LGNₕ maps to L1ₕ.
-MGNₕ maps to A1ₕ.
+LGNₕ maps to L1ₕ. -- as I.
+MGNₕ maps to A1ₕ. -- as I.
+
+--V1ᕯL5 maps to Thᶨ as R.
+--V1ᕯL5 maps to Stemᶨ as M.
+
+V1 maps to V2 via Th.
 

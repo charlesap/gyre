@@ -1,8 +1,14 @@
-[tool.ruff] 
-line-length = 100
-ignore = ["D203"]
-show-source = true
-[tool.pytest.ini_options] 
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+lint.select = ["E", "F", "I", "UP"]
+lint.ignore = ["D203"]
+
+[tool.pytest.ini_options]
 addopts = "-ra --cov"
-testpaths = ["tests"] 
+testpaths = ["tests"]
 pythonpath = ['.']
+
+[tool.coverage.report]
+show_missing = true
+

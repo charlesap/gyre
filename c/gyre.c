@@ -3,6 +3,9 @@
 volatile sig_atomic_t done = 0;
 volatile sig_atomic_t catcher = 0;
 
+
+char hname[256];
+
 void term(int signum)
 {
    printf("SIGUSR1 caught\n");
@@ -42,6 +45,10 @@ int communicate(int done,int rank,int world){
 
 int main(int argc, char** argv) {
 
+    gethostname(hname, 256);
+    hname[255]=0;
+    printf("hostname: %s ",hname);
+
     struct sigaction action;
     memset(&action, 0, sizeof(action));
     action.sa_handler = term;
@@ -64,7 +71,7 @@ int main(int argc, char** argv) {
         MPI_Barrier(MPI_COMM_WORLD);
         done = communicate(0,rank,world);
 	if(done==0){
-	  done = checkif();
+	  done = checkif(hname);
 	}
 	if(done==0){
           sleep(1);

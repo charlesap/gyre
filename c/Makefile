@@ -32,7 +32,8 @@ $(ODIR)/%.o: %.c $(GDEPS)
 	$(MPICC) -c -o $@ $< $(CFLAGS)
 	
 $(LDIR)/%.so: $(SODEPS)
-	$(CC) -shared -c -o $@ $< $(CFLAGS)
+	gcc -shared -o ../lib/cortical.so cortical.c -I../include
+	gcc -shared -o ../lib/interface.so interface.c -I../include
 
 gyre: $(OBJ)
 	$(MPICC) -o $@ $^ $(CFLAGS) $(LIBS)

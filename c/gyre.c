@@ -1,3 +1,5 @@
+#include "gyre.h"
+
 volatile sig_atomic_t done = 0;
 volatile sig_atomic_t catcher = 0;
 

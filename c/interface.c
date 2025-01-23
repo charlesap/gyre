@@ -34,14 +34,15 @@ int prepif(int myport) {
   return 0;
 }
 
-int checkif(void){
+int checkif(char * hname){
 
   struct hostent *theirinfo;
-  char buf[BUFSIZE];
   char *theiraddrp;
   int n;
   struct sockaddr_in theiraddr;
   unsigned int theirlen = sizeof(theiraddr);
+  char inbuf[BUFSIZE];
+  char outbuf[BUFSIZE];
 
   fd_set readfds;
   struct timeval tv;
@@ -56,8 +57,8 @@ int checkif(void){
 
   while(rv != 0){ 
 
-    bzero(buf, BUFSIZE);
-    n = recvfrom(sockfd, buf, BUFSIZE, 0,
+    bzero(inbuf, BUFSIZE);
+    n = recvfrom(sockfd, inbuf, BUFSIZE, 0,
 		 (struct sockaddr *) &theiraddr, &theirlen);
     if (n < 0)
       return -1;
@@ -71,10 +72,15 @@ int checkif(void){
       return -1;
     printf("server received datagram from %s (%s)\n", 
 	   theirinfo->h_name, theiraddrp);
-    printf("server received %lu/%d bytes: %s\n", strlen(buf), n, buf);
+    printf("server received %lu/%d bytes: %s\n", strlen(inbuf), n, inbuf);
     
-    n = sendto(sockfd, buf, strlen(buf), 0, 
+    bzero(outbuf, BUFSIZE);
+    strncpy(outbuf,hname,BUFSIZE);
+//    outbuf[strlen(hname)]=0;
+    n = sendto(sockfd, outbuf, strlen(outbuf), 0, 
 	       (struct sockaddr *) &theiraddr, theirlen);
+//    n = sendto(sockfd, inbuf, strlen(inbuf), 0, 
+//	       (struct sockaddr *) &theiraddr, theirlen);
     if (n < 0) 
       return -1;
     FD_ZERO(&readfds);

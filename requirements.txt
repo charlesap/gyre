@@ -1,2 +1,5 @@
 argparse
+psutil
 lark
+pyqt5
+mpi4py

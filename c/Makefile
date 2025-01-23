@@ -5,7 +5,7 @@ MPICC=mpicc
 UNAME := $(shell uname)
 
 ifeq ($(UNAME), Linux)
-CFLAGS=-I$(IDIR) -std=gnu99
+CFLAGS=-I$(IDIR) -std=gnu99 -fPIC
 else
 CFLAGS=-I$(IDIR)
 endif
@@ -32,8 +32,8 @@ $(ODIR)/%.o: %.c $(GDEPS)
 	$(MPICC) -c -o $@ $< $(CFLAGS)
 	
 $(LDIR)/%.so: $(SODEPS)
-	gcc -shared -o ../lib/cortical.so cortical.c -I../include
-	gcc -shared -o ../lib/interface.so interface.c -I../include
+	gcc -shared -o ../lib/cortical.so cortical.c $(CFLAGS)
+	gcc -shared -o ../lib/interface.so interface.c $(CFLAGS)
 
 gyre: $(OBJ)
 	$(MPICC) -o $@ $^ $(CFLAGS) $(LIBS)

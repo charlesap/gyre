@@ -8,9 +8,9 @@ class Window(QMainWindow):
     def __init__(self, parent=None):
         """Initializer."""
         super().__init__(parent)
-        self.setWindowTitle("Python Menus & Toolbars")
+        self.setWindowTitle("Gyre Simulation")
         self.resize(400, 200)
-        self.centralWidget = QLabel("Hello, World")
+        self.centralWidget = QLabel("Gyre")
         self.centralWidget.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
         self.setCentralWidget(self.centralWidget)
 

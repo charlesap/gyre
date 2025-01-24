@@ -27,7 +27,7 @@ def produce(current,thecst):
     cfile.close()
     ncores=os.cpu_count()
     ram=psutil.virtual_memory().total 
-    print("suggested compile: mpicc -o gyre c/gyre.c c/cortical.c c/interface.c")
+    print("suggested compile: rm gyre; cd c; make shared; make; mv gyre ../; cd ..")
     print("suggested run: mpirun -np "+str(ncores)+" ./gyre -d ./"+current+".def -m "+str(math.floor(ram/1024/1024/ncores)))
 
     return ok

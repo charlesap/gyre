@@ -13,14 +13,14 @@ void term(int signum)
    catcher = 1;
 }
 
-int communicate(int done,int rank,int world,int *v){
+int communicate(int done,int rank,int world,int *v,int *r){
     int rv = done;
 //    int v[8];
 
 //    long q;
 //    q = fact(5);
 
-    for(int i = 0; i < 8; i++)
+    for(int i = 0; i < world; i++)
     {
 	if(done==1){
             v[i] = -1;
@@ -30,11 +30,11 @@ int communicate(int done,int rank,int world,int *v){
     }
 //    printf("Process %d, my values = %d, %d, %d, %d, %d, %d, %d, %d.\n", rank, v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7]);
  
-    int r[8];
+//    int r[8];
     MPI_Alltoall(&v, 1, MPI_INT, r, 1, MPI_INT, MPI_COMM_WORLD);
 //    printf("Values collected on process %d: %d, %d, %d %d, %d, %d, %d, %d.\n", rank, r[0], r[1], r[2], r[3], r[4], r[5], r[6], r[7]);
 
-    for(int i = 0; i < 8; i++)
+    for(int i = 0; i < world; i++)
     {
       if(r[i]==-1){
 	      rv = 1;
@@ -67,22 +67,30 @@ int main(int argc, char** argv) {
       printf("Couldn't open interface udp port.");
     }else{
       int *v = NULL;
+      int *r = NULL;
 
       v = malloc(world * sizeof *v);
       if (v == NULL) {
         fprintf(stderr, "Out of memory!\n");
         exit(1);
       }
+      r = malloc(world * sizeof *r);
+      if (r == NULL) {
+        fprintf(stderr, "Out of memory!\n");
+        exit(1);
+      }
 
-      for(int i = 0; i < world; ++i)
+      for(int i = 0; i < world; ++i){
         v[i] = i;
+        r[i] = i;
+      }
 
 
 
       printf("start: pid %d rank %d, world: %d\n",getpid(), rank, world);fflush(stdout);
       for(int i=0;(done==0)&&(i<60);i++){
         MPI_Barrier(MPI_COMM_WORLD);
-        done = communicate(0,rank,world,v);
+        done = communicate(0,rank,world,v,r);
 	if(done==0){
 	  done = checkif(hname);
 	}
@@ -95,9 +103,9 @@ int main(int argc, char** argv) {
       }
       if((done==1)&&(catcher==1)){
         MPI_Barrier(MPI_COMM_WORLD);
-        communicate(done,rank,world,v);
+        communicate(done,rank,world,v,r);
       }
       MPI_Finalize();
     }
 }
-// end generated source
+

@@ -75,7 +75,7 @@ int checkif(char * hname){
     printf("server received %lu/%d bytes: %s\n", strlen(inbuf), n, inbuf);
     
     bzero(outbuf, BUFSIZE);
-    strncpy(outbuf,hname,BUFSIZE);
+    strncpy(outbuf,hname,BUFSIZE-1);
 //    outbuf[strlen(hname)]=0;
     n = sendto(sockfd, outbuf, strlen(outbuf), 0, 
 	       (struct sockaddr *) &theiraddr, theirlen);

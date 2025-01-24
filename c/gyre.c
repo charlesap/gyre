@@ -13,9 +13,9 @@ void term(int signum)
    catcher = 1;
 }
 
-int communicate(int done,int rank,int world){
+int communicate(int done,int rank,int world,int *v){
     int rv = done;
-    int v[8];
+//    int v[8];
 
     long q;
     q = fact(5);
@@ -66,10 +66,23 @@ int main(int argc, char** argv) {
     if( ok != 0){
       printf("Couldn't open interface udp port.");
     }else{
+      int *v = NULL;
+
+      v = malloc(world * sizeof *v);
+      if (v == NULL) {
+        fprintf(stderr, "Out of memory!\n");
+        exit(1);
+      }
+
+      for(int i = 0; i < world; ++i)
+        v[i] = i;
+
+
+
       printf("start: pid %d rank %d, world: %d\n",getpid(), rank, world);fflush(stdout);
       for(int i=0;(done==0)&&(i<60);i++){
         MPI_Barrier(MPI_COMM_WORLD);
-        done = communicate(0,rank,world);
+        done = communicate(0,rank,world,v);
 	if(done==0){
 	  done = checkif(hname);
 	}
@@ -82,7 +95,7 @@ int main(int argc, char** argv) {
       }
       if((done==1)&&(catcher==1)){
         MPI_Barrier(MPI_COMM_WORLD);
-        communicate(done,rank,world);
+        communicate(done,rank,world,v);
       }
       MPI_Finalize();
     }

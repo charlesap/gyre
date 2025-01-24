@@ -17,8 +17,8 @@ int communicate(int done,int rank,int world,int *v){
     int rv = done;
 //    int v[8];
 
-    long q;
-    q = fact(5);
+//    long q;
+//    q = fact(5);
 
     for(int i = 0; i < 8; i++)
     {
@@ -57,7 +57,7 @@ int main(int argc, char** argv) {
     MPI_Init(NULL, NULL);
     int rank;
     int world;
-    int got;
+//    int got;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &world);
 

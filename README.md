@@ -98,6 +98,17 @@ Run the binary on 8 cores:
 mpirun -np 8 ./gyre -d ./creature.def -m 1024
 ```
 
+Pipe the output of the simulation into the graphical viewer:
+```
+mpirun -np 8 ./gyre -d ./creature.def -m 3072 | python show.py
+```
+
+Save the output of the simulation to a file and watch the output with the graphical viewer:
+```
+mpirun -np 8 ./gyre -d ./creature.def -m 3072 > output &      
+tail -F -n 10000 output | python show.py
+```
+
 When developing:
 ```
 ruff check .

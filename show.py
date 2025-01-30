@@ -13,11 +13,13 @@ class Window(QMainWindow):
         """Initializer."""
         super().__init__(parent)
         self.setWindowTitle("Gyre Simulation")
-        self.resize(400, 200)
+        self.resize(600, 200)
         self.centralWidget = QLabel("Gyre")
         self.centralWidget.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
         self.setCentralWidget(self.centralWidget)
 
+    def update(self,text):
+        self.centralWidget = QLabel(text)
 
 class QTextEditLogger(logging.Handler):
     def __init__(self, parent):
@@ -43,9 +45,10 @@ class StdinReader(QThread):
 
 
 class MyDialog(QDialog, QPlainTextEdit):
-    def __init__(self, parent=None):
+    def __init__(self, win, parent=None):
         super().__init__(parent)
 
+        self.topwin = win
         self.resize(800, 400)
         self.setWindowTitle("Gyre Log")
 
@@ -72,6 +75,22 @@ class MyDialog(QDialog, QPlainTextEdit):
 
     def append(self, text):
         logging.debug(text)
+        parts = text.split(',')
+        if len(parts)>3:
+            first = parts[0].split(':')
+            if len(first)>1:
+                if first[0]=="hostname":
+                    pid = parts[1].split(':')
+                    rank = parts[2].split(':')
+                    world = parts[3].split(':')
+                    win.setWindowTitle(first[1])
+                    try:
+                        hosts
+                    except NameError:
+                        hosts = [0] * int(world[1])
+                        pids = [0] * int(world[1])
+                    hosts[int(rank[1])]=first[1]
+                    pids[int(rank[1])]=pid[1]
 
 #    def test(self):
 #        logging.debug('damn, a bug')
@@ -81,10 +100,10 @@ class MyDialog(QDialog, QPlainTextEdit):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    dlg = MyDialog()
+    win = Window()
+    dlg = MyDialog(win)
     dlg.show()
     dlg.raise_()
-    win = Window()
     win.show()
 
 

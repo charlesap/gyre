@@ -87,7 +87,7 @@ int main(int argc, char** argv) {
 
 
 
-      printf("hostname: %s pid: %d rank: %d world: %d\n",hname, getpid(), rank, world);fflush(stdout);
+      printf("hostname:%s,pid:%d,rank:%d,world:%d\n",hname, getpid(), rank, world);fflush(stdout);
       for(int i=0;(done==0)&&(i<60);i++){
         MPI_Barrier(MPI_COMM_WORLD);
         done = communicate(0,rank,world,v,r);

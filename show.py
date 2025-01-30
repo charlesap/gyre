@@ -46,45 +46,46 @@ class MyDialog(QDialog, QPlainTextEdit):
     def __init__(self, parent=None):
         super().__init__(parent)
 
+        self.resize(800, 400)
+        self.setWindowTitle("Gyre Log")
+
         self.stdin_reader = StdinReader()
         self.stdin_reader.inputReceived.connect(self.append)
         self.stdin_reader.start()
 
         logTextBox = QTextEditLogger(self)
-        # You can format what is printed to text box
 #        logTextBox.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
         logging.getLogger().addHandler(logTextBox)
-        # You can control the logging level
         logging.getLogger().setLevel(logging.DEBUG)
 
-        self._button = QPushButton(self)
-        self._button.setText('Test Me')
+#        self._button = QPushButton(self)
+#        self._button.setText('Test Me')
 
         layout = QVBoxLayout()
         # Add the new logging box widget to the layout
         layout.addWidget(logTextBox.widget)
-        layout.addWidget(self._button)
+#        layout.addWidget(self._button)
         self.setLayout(layout)
 
         # Connect signal to slot
-        self._button.clicked.connect(self.test)
+#        self._button.clicked.connect(self.test)
 
     def append(self, text):
         logging.debug(text)
 
-    def test(self):
-        logging.debug('damn, a bug')
-        logging.info('something to remember')
-        logging.warning('that\'s not right')
-        logging.error('foobar')
+#    def test(self):
+#        logging.debug('damn, a bug')
+#        logging.info('something to remember')
+#        logging.warning('that\'s not right')
+#        logging.error('foobar')
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    win = Window()
-    win.show()
     dlg = MyDialog()
     dlg.show()
     dlg.raise_()
+    win = Window()
+    win.show()
 
 
     sys.exit(app.exec_())

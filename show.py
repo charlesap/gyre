@@ -1,6 +1,6 @@
 import os, sys
 import logging
-import fcntl, select, time
+import fcntl, select, time, math
 from PyQt5.QtCore import QThread, pyqtSignal
 
 
@@ -75,7 +75,7 @@ class MyTableWidget(QWidget):
 
         self.addTabs()
         self.createOverviewTab()
-        self.createDetailTab()
+#        self.createDetailTab(80)
         self.createLogTab()
 
         self.layout.addWidget(self.tabs)
@@ -93,9 +93,9 @@ class MyTableWidget(QWidget):
         self.tabOVR.layout.addWidget(self.pushButton1)
         self.tabOVR.setLayout(self.tabOVR.layout)
 
-    def createDetailTab(self):
+    def createDetailTab(self,count):
         self.tabDTL.layout = QVBoxLayout(self)
-        self.createGridLayout()
+        self.createGridLayout(count)
         windowLayout = QVBoxLayout(self)
         windowLayout.addWidget(self.horizontalGroupBox)
         self.tabDTL.setLayout(windowLayout)
@@ -120,22 +120,40 @@ class MyTableWidget(QWidget):
         self.tabLOG.layout.addWidget(logTextBox.widget)
         self.setLayout(self.tabLOG.layout)
 
-    def createGridLayout(self):
+    def createGridLayout(self,count):
         self.horizontalGroupBox = QGroupBox("Nodes")
         layout = QGridLayout()
         #layout.setColumnStretch(1, 4)
         #layout.setColumnStretch(2, 4)
         
-        layout.addWidget(QPushButton('1'),0,0)
-        layout.addWidget(QPushButton('2'),0,1)
-        layout.addWidget(QPushButton('3'),0,2)
-        layout.addWidget(QPushButton('4'),1,0)
-        layout.addWidget(QPushButton('5'),1,1)
-        layout.addWidget(QPushButton('6'),1,2)
-        layout.addWidget(QPushButton('7'),2,0)
-        layout.addWidget(QPushButton('8'),2,1)
-        layout.addWidget(QPushButton('9'),2,2)
-        
+#        label_yellow = QLabel("Yellow")
+#        label_yellow.setStyleSheet("border: 1px solid black; background-color: yellow")
+#        layout.addWidget(label_yellow, 1,1)
+
+        x=math.floor(math.sqrt(count))
+        y=count // x
+        z=count % x
+        c=0
+        for i in range(y):
+            for j in range(x):
+                layout.addWidget(QPushButton(sim.hosts[c]+" "+str(sim.pids[c])),i,j)
+                c=c+1
+        if z > 0:
+            for j in range(x):
+                if z > j:
+                    layout.addWidget(QPushButton(sim.hosts[c]+" "+str(sim.pids[c])),y+1,j)
+                c=c+1
+
+#        layout.addWidget(QPushButton('1'),0,0)
+#        layout.addWidget(QPushButton('2'),0,1)
+#        layout.addWidget(QPushButton('3'),0,2)
+#        layout.addWidget(QPushButton('4'),1,0)
+#        layout.addWidget(QPushButton('5'),1,1)
+#        layout.addWidget(QPushButton('6'),1,2)
+#        layout.addWidget(QPushButton('7'),2,0)
+#        layout.addWidget(QPushButton('8'),2,1)
+#        layout.addWidget(QPushButton('9'),2,2)
+
         self.horizontalGroupBox.setLayout(layout)
 
     def logAppend(self, text):
@@ -154,10 +172,11 @@ class MyTableWidget(QWidget):
                     if sim.hosts == None:
                         sim.hosts = [0] * int(world[1])
                         sim.pids = [0] * int(world[1])
-                    sim.cores=int(rank[1])
+                        sim.cores=int(world[1])
                     sim.hosts[int(rank[1])]=first[1]
-                    sim.pids[int(rank[1])]=pid[1]
-
+                    sim.pids[int(rank[1])]=int(pid[1])
+        if text=="INITIALIZING":
+            self.createDetailTab(sim.cores)    
 
     @pyqtSlot()
     def on_click(self):

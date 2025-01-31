@@ -8,6 +8,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow, QDialog, QPlainTextEdit, QPushButton, QVBoxLayout
 
 from PyQt5.QtWidgets import QWidget, QAction, QTabWidget
+from PyQt5.QtWidgets import QHBoxLayout, QGroupBox, QGridLayout
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
 
@@ -27,12 +28,13 @@ class App(QMainWindow):
         self.top = 0
         self.width = 800
         self.height = 600
+        self.initUI()
+        
+    def initUI(self):
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
-        
         self.table_widget = MyTableWidget(self)
-        self.setCentralWidget(self.table_widget)
-        
+        self.setCentralWidget(self.table_widget)        
         self.show()
 
 
@@ -64,7 +66,6 @@ class MyTableWidget(QWidget):
         super(QWidget, self).__init__(parent)
         self.layout = QVBoxLayout(self)
 
-        # Initialize tab screen
         self.tabs = QTabWidget()
         self.tabOVR = QWidget()
         self.tabDTL = QWidget()
@@ -72,19 +73,37 @@ class MyTableWidget(QWidget):
         self.tabLOG = QWidget()
         self.tabs.resize(800,600)
 
-        # Add tabs
+        self.addTabs()
+        self.createOverviewTab()
+        self.createDetailTab()
+        self.createLogTab()
+
+        self.layout.addWidget(self.tabs)
+        self.setLayout(self.layout)
+        
+    def addTabs(self):
         self.tabs.addTab(self.tabOVR,"Overview")
         self.tabs.addTab(self.tabDTL,"Detail")
         self.tabs.addTab(self.tabDGN,"Diagnostics")
         self.tabs.addTab(self.tabLOG,"Log")
 
-        # Create Overview tab
+    def createOverviewTab(self):
         self.tabOVR.layout = QVBoxLayout(self)
         self.pushButton1 = QPushButton("Push Me")
         self.tabOVR.layout.addWidget(self.pushButton1)
         self.tabOVR.setLayout(self.tabOVR.layout)
 
-        # Create Log tab
+    def createDetailTab(self):
+        self.tabDTL.layout = QVBoxLayout(self)
+        self.createGridLayout()
+        windowLayout = QVBoxLayout(self)
+        windowLayout.addWidget(self.horizontalGroupBox)
+        self.tabDTL.setLayout(windowLayout)
+        self.show()
+
+        #self.tabDTL.setLayout(self.tabDTL.layout)
+
+    def createLogTab(self):
         self.tabLOG.layout = QVBoxLayout(self)
         self.plainTextEditLog = QPlainTextEdit()
         self.tabLOG.layout.addWidget(self.plainTextEditLog)
@@ -98,15 +117,26 @@ class MyTableWidget(QWidget):
         logging.getLogger().addHandler(logTextBox)
         logging.getLogger().setLevel(logging.DEBUG)
 
-
-#        self.tabLOG.layout = QVBoxLayout(self)
         self.tabLOG.layout.addWidget(logTextBox.widget)
         self.setLayout(self.tabLOG.layout)
 
-        # Add tabs to widget
-        self.layout.addWidget(self.tabs)
-        self.setLayout(self.layout)
-
+    def createGridLayout(self):
+        self.horizontalGroupBox = QGroupBox("Nodes")
+        layout = QGridLayout()
+        #layout.setColumnStretch(1, 4)
+        #layout.setColumnStretch(2, 4)
+        
+        layout.addWidget(QPushButton('1'),0,0)
+        layout.addWidget(QPushButton('2'),0,1)
+        layout.addWidget(QPushButton('3'),0,2)
+        layout.addWidget(QPushButton('4'),1,0)
+        layout.addWidget(QPushButton('5'),1,1)
+        layout.addWidget(QPushButton('6'),1,2)
+        layout.addWidget(QPushButton('7'),2,0)
+        layout.addWidget(QPushButton('8'),2,1)
+        layout.addWidget(QPushButton('9'),2,2)
+        
+        self.horizontalGroupBox.setLayout(layout)
 
     def logAppend(self, text):
         logging.debug(text) # logging.debug logging.info logging.warning logging.error

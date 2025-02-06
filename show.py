@@ -125,34 +125,26 @@ class MyTableWidget(QWidget):
         layout = QGridLayout()
         #layout.setColumnStretch(1, 4)
         #layout.setColumnStretch(2, 4)
-        
-#        label_yellow = QLabel("Yellow")
-#        label_yellow.setStyleSheet("border: 1px solid black; background-color: yellow")
-#        layout.addWidget(label_yellow, 1,1)
+
 
         x=math.floor(math.sqrt(count))
         y=count // x
         z=count % x
         c=0
+        labels = [0] * (x*y+1)
         for i in range(y):
             for j in range(x):
-                layout.addWidget(QPushButton(sim.hosts[c]+" "+str(sim.pids[c])),i,j)
+                labels[x*i+j] = QLabel("node: "+str(x*i+j)+"\nhost: "+sim.hosts[c]+"\npid: "+str(sim.pids[c]))
+                labels[x*i+j].setStyleSheet("border: 1px solid black; background-color: yellow")
+                labels[x*i+j].setAlignment(Qt.AlignCenter)
+                layout.addWidget(labels[x*i+j], i,j)
+                #layout.addWidget(QPushButton(sim.hosts[c]+" "+str(sim.pids[c])),i,j)
                 c=c+1
         if z > 0:
             for j in range(x):
                 if z > j:
                     layout.addWidget(QPushButton(sim.hosts[c]+" "+str(sim.pids[c])),y+1,j)
                 c=c+1
-
-#        layout.addWidget(QPushButton('1'),0,0)
-#        layout.addWidget(QPushButton('2'),0,1)
-#        layout.addWidget(QPushButton('3'),0,2)
-#        layout.addWidget(QPushButton('4'),1,0)
-#        layout.addWidget(QPushButton('5'),1,1)
-#        layout.addWidget(QPushButton('6'),1,2)
-#        layout.addWidget(QPushButton('7'),2,0)
-#        layout.addWidget(QPushButton('8'),2,1)
-#        layout.addWidget(QPushButton('9'),2,2)
 
         self.horizontalGroupBox.setLayout(layout)
 
@@ -173,7 +165,8 @@ class MyTableWidget(QWidget):
                         sim.hosts = [0] * int(world[1])
                         sim.pids = [0] * int(world[1])
                         sim.cores=int(world[1])
-                    sim.hosts[int(rank[1])]=first[1]
+                    nparts=first[1].split('.')
+                    sim.hosts[int(rank[1])]=nparts[0]
                     sim.pids[int(rank[1])]=int(pid[1])
         if text=="INITIALIZING":
             self.createDetailTab(sim.cores)    

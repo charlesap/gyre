@@ -143,7 +143,7 @@ class MyTableWidget(QWidget):
         if z > 0:
             for j in range(x):
                 if z > j:
-                    labels[x*(y+1)+j] = QLabel("node: "+str(x*i+j)+"\nhost: "+sim.hosts[c]+"\npid: "+str(sim.pids[c]))
+                    labels[x*(y+1)+j] = QLabel("node: "+str(x*(y+1)+j)+"\nhost: "+sim.hosts[c]+"\npid: "+str(sim.pids[c]))
                     labels[x*(y+1)+j].setStyleSheet("border: 1px solid black; background-color: yellow")
                     labels[x*(y+1)+j].setAlignment(Qt.AlignCenter)
                     layout.addWidget(labels[x*(y+1)+j], i,j)

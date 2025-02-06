@@ -131,7 +131,7 @@ class MyTableWidget(QWidget):
         y=count // x
         z=count % x
         c=0
-        labels = [0] * (x*y+1)
+        labels = [0] * (x*y+x)
         for i in range(y):
             for j in range(x):
                 labels[x*i+j] = QLabel("node: "+str(x*i+j)+"\nhost: "+sim.hosts[c]+"\npid: "+str(sim.pids[c]))
@@ -141,13 +141,12 @@ class MyTableWidget(QWidget):
                 #layout.addWidget(QPushButton(sim.hosts[c]+" "+str(sim.pids[c])),i,j)
                 c=c+1
         if z > 0:
-            for j in range(x):
-                if z > j:
-                    labels[x*(y+1)+j] = QLabel("node: "+str(x*(y+1)+j)+"\nhost: "+sim.hosts[c]+"\npid: "+str(sim.pids[c]))
-                    labels[x*(y+1)+j].setStyleSheet("border: 1px solid black; background-color: yellow")
-                    labels[x*(y+1)+j].setAlignment(Qt.AlignCenter)
-                    layout.addWidget(labels[x*(y+1)+j], i,j)
-                    #layout.addWidget(QPushButton(sim.hosts[c]+" "+str(sim.pids[c])),y+1,j)
+            for j in range(z):
+                labels[x*y+j] = QLabel("node: "+str(x*y+j)+"\nhost: "+sim.hosts[c]+"\npid: "+str(sim.pids[c]))
+                labels[x*y+j].setStyleSheet("border: 1px solid black; background-color: yellow")
+                labels[x*y+j].setAlignment(Qt.AlignCenter)
+                layout.addWidget(labels[x*y+j], y+1,j)
+                #layout.addWidget(QPushButton(sim.hosts[c]+" "+str(sim.pids[c])),y+1,j)
                 c=c+1
 
         self.horizontalGroupBox.setLayout(layout)

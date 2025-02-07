@@ -112,6 +112,9 @@ int main(int argc, char** argv) {
         communicate(done,rank,world,v,r);
       }
       MPI_Finalize();
+      if(rank==0){
+        printf("FINISHED\n");fflush(stdout);
+      }
     }
 }
 

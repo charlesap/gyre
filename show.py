@@ -103,6 +103,12 @@ class MyTableWidget(QWidget):
 
         #self.tabDTL.setLayout(self.tabDTL.layout)
 
+    def updateDetailTab(self):
+        self.dtlButton = QPushButton("OK")
+#        self.horizontalGroupBox.layout.addWidget(dtlButton)
+        self.show()
+
+
     def createLogTab(self):
         self.tabLOG.layout = QVBoxLayout(self)
         self.plainTextEditLog = QPlainTextEdit()
@@ -173,6 +179,8 @@ class MyTableWidget(QWidget):
                     sim.pids[int(rank[1])]=int(pid[1])
         if text=="INITIALIZING":
             self.createDetailTab(sim.cores)    
+        if text=="FINISHED":
+            self.updateDetailTab()    
 
     @pyqtSlot()
     def on_click(self):
